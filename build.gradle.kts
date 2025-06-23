@@ -3,7 +3,7 @@ import java.nio.charset.StandardCharsets
 plugins {
     java
     `maven-publish`
-    `kotlin-dsl`
+    `kotlin-dsl-base`
 }
 
 group = "de.honoka.gradle"
@@ -15,14 +15,14 @@ val notPluginProjects = listOf(project("honoka-gradle-dsl"))
 subprojects {
     apply(plugin = "java")
     apply(plugin = "maven-publish")
-    apply(plugin = "org.gradle.kotlin.kotlin-dsl")
 
-    if(project !in notPluginProjects) {
-        apply(plugin = "java-gradle-plugin")
-        group = "${rootProject.group}.plugin"
-    } else {
+    if(project in notPluginProjects) {
         apply(plugin = "java-library")
+        apply(plugin = "org.gradle.kotlin.kotlin-dsl.base")
         group = rootProject.group
+    } else {
+        apply(plugin = "org.gradle.kotlin.kotlin-dsl")
+        group = "${rootProject.group}.plugin"
     }
 
     java {
