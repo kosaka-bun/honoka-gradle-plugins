@@ -1,0 +1,5 @@
+[versions]
+# project modules version
+root = "1.0.0-dev"
+honoka-gradle-dsl = "1.0.0-dev"
+honoka-basic-plugin = "1.0.0-dev"
