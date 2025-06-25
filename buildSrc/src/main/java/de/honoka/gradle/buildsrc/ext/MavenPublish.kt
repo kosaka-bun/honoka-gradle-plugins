@@ -1,9 +1,10 @@
 package de.honoka.gradle.buildsrc.ext
 
+import de.honoka.gradle.buildsrc.model.currentProject
 import de.honoka.gradle.buildsrc.model.globalData
+import de.honoka.gradle.buildsrc.model.globalDataOfRoot
 import de.honoka.gradle.buildsrc.util.dsl.publishing
 import de.honoka.gradle.buildsrc.util.dsl.rawDependencies
-import de.honoka.gradle.buildsrc.util.project.currentProject
 import org.gradle.api.Project
 import org.gradle.api.artifacts.Dependency
 import org.gradle.api.publish.PublishingExtension
@@ -32,7 +33,7 @@ object MavenPublishDsl {
         currentProject.tasks.register("checkVersionOfProjects") {
             group = "publishing"
             doLast {
-                checkVersionOfProjects()
+                checkVersionOfProjects(project)
             }
         }
     }
@@ -69,7 +70,8 @@ private fun setupPublication(project: Project) {
     setupRepositories(project)
 }
 
-private fun checkVersionOfProjects() {
+private fun checkVersionOfProjects(project: Project) {
+    val globalData = project.globalDataOfRoot
     val separator = "-----".repeat(7)
     val projects = listOf(globalData.rootProject) + globalData.mavenPublish.projectsWillPublish
     val dependencies = HashSet<Dependency>()

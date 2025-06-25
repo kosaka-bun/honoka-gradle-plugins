@@ -6,6 +6,7 @@ import org.gradle.api.artifacts.ConfigurationContainer
 import org.gradle.api.artifacts.Dependency
 import org.gradle.api.internal.artifacts.dsl.dependencies.DefaultDependencyHandler
 import org.gradle.api.internal.catalog.VersionModel
+import org.gradle.api.internal.project.ProjectStateInternal
 import org.gradle.api.publish.PublishingExtension
 
 val Project.rawDependencies: Set<Dependency>
@@ -25,6 +26,9 @@ val Project.rawDependencies: Set<Dependency>
         }
         return set
     }
+
+val Project.currentProject: Project
+    get() = rootProject.allprojects.first { (it.state as ProjectStateInternal).isConfiguring }
 
 @Suppress("UNCHECKED_CAST")
 fun Project.libVersions(): Map<String, VersionModel> {

@@ -1,10 +1,10 @@
 package de.honoka.gradle.plugin.basic.ext
 
+import de.honoka.gradle.plugin.basic.model.currentProject
 import de.honoka.gradle.plugin.basic.model.globalData
 import de.honoka.gradle.util.dsl.getVersion
 import de.honoka.gradle.util.dsl.implementation
 import de.honoka.gradle.util.dsl.libVersions
-import de.honoka.gradle.util.project.currentProject
 import org.gradle.api.artifacts.dsl.DependencyHandler
 
 internal class Dependencies {
@@ -12,6 +12,7 @@ internal class Dependencies {
     val versions by lazy { currentProject.libVersions() }
 }
 
+@Suppress("unused")
 object DependenciesDsl {
 
     private fun v(key: String) = globalData.dependencies.versions.getVersion(key)

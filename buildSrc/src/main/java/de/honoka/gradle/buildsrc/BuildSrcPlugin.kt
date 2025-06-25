@@ -1,9 +1,7 @@
 package de.honoka.gradle.buildsrc
 
 import de.honoka.gradle.buildsrc.model.GlobalData
-import de.honoka.gradle.buildsrc.model.globalData
 import de.honoka.gradle.buildsrc.util.listener.onBuildFinished
-import de.honoka.gradle.buildsrc.util.project.CurrentProject
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.build.event.BuildEventsListenerRegistry
@@ -14,8 +12,7 @@ class BuildSrcPlugin @Inject constructor(
 ) : Plugin<Project> {
 
     override fun apply(project: Project) {
-        globalData.rootProject = project.rootProject
-        CurrentProject.enable(project)
+        GlobalData.init(project)
         buildEventsListenerRegistry.onBuildFinished(
             project.gradle,
             "buildSrcPlugin",

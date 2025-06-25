@@ -1,9 +1,10 @@
 package de.honoka.gradle.plugin.basic.ext
 
+import de.honoka.gradle.plugin.basic.model.currentProject
 import de.honoka.gradle.plugin.basic.model.globalData
+import de.honoka.gradle.plugin.basic.model.globalDataOfRoot
 import de.honoka.gradle.util.dsl.publishing
 import de.honoka.gradle.util.dsl.rawDependencies
-import de.honoka.gradle.util.project.currentProject
 import org.gradle.api.Project
 import org.gradle.api.artifacts.Dependency
 import org.gradle.api.publish.PublishingExtension
@@ -17,7 +18,7 @@ internal class MavenPublish {
     val projectsWillPublish = ArrayList<Project>()
 }
 
-@Suppress("UnusedReceiverParameter")
+@Suppress("UnusedReceiverParameter", "unused")
 object MavenPublishDsl {
 
     var PublishingExtension.publicationVersion: String
@@ -28,7 +29,7 @@ object MavenPublishDsl {
         currentProject.tasks.register("checkVersionOfProjects") {
             group = "publishing"
             doLast {
-                checkVersionOfProjects()
+                checkVersionOfProjects(project)
             }
         }
     }
@@ -58,7 +59,8 @@ private fun setupVersionAndPublishing(project: Project, version: String) {
     globalData.mavenPublish.projectsWillPublish.add(project)
 }
 
-private fun checkVersionOfProjects() {
+private fun checkVersionOfProjects(project: Project) {
+    val globalData = project.globalDataOfRoot
     val separator = "-----".repeat(7)
     val projects = listOf(globalData.rootProject) + globalData.mavenPublish.projectsWillPublish
     val dependencies = HashSet<Dependency>()
