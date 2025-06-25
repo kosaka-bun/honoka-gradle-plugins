@@ -1,4 +1,4 @@
-import de.honoka.gradle.buildsrc.setupRepositories
+import de.honoka.gradle.buildsrc.ext.MavenPublishDsl.setupRepositories
 
 version = libs.versions.honoka.basic.plugin.get()
 
@@ -16,5 +16,5 @@ dependencies {
 }
 
 publishing {
-    setupRepositories(project)
+    setupRepositories()
 }

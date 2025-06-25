@@ -1,4 +1,5 @@
-import de.honoka.gradle.buildsrc.defineCheckVersionTask
+import de.honoka.gradle.buildsrc.BuildSrcPlugin
+import de.honoka.gradle.buildsrc.ext.MavenPublishDsl.defineCheckVersionTask
 import java.nio.charset.StandardCharsets
 
 plugins {
@@ -12,6 +13,10 @@ version = libs.versions.root.get()
 
 //非Gradle插件项目
 val notPluginProjects = listOf(project("honoka-gradle-utils"))
+
+allprojects {
+    apply<BuildSrcPlugin>()
+}
 
 subprojects {
     apply(plugin = "java")
@@ -57,5 +62,5 @@ subprojects {
 }
 
 publishing {
-    defineCheckVersionTask(project)
+    defineCheckVersionTask()
 }
