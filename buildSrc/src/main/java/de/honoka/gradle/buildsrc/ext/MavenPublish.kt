@@ -7,6 +7,8 @@ import de.honoka.gradle.buildsrc.util.dsl.publishing
 import de.honoka.gradle.buildsrc.util.dsl.rawDependencies
 import org.gradle.api.Project
 import org.gradle.api.artifacts.Dependency
+import org.gradle.api.artifacts.dsl.RepositoryHandler
+import org.gradle.api.publish.PublicationContainer
 import org.gradle.api.publish.PublishingExtension
 import org.gradle.api.publish.maven.MavenPublication
 import org.gradle.kotlin.dsl.create
@@ -21,12 +23,13 @@ internal class MavenPublish {
 @Suppress("UnusedReceiverParameter")
 object MavenPublishDsl {
 
-    fun PublishingExtension.setupRepositories() {
-        setupRepositories(currentProject)
+    fun RepositoryHandler.default() {
+        setupDefaultRepositories(currentProject)
     }
 
-    fun PublishingExtension.setupPublication() {
-        setupPublication(currentProject)
+    fun PublicationContainer.default() {
+        setupDefaultRepositories(currentProject)
+        setupDefaultPublication(currentProject)
     }
 
     fun PublishingExtension.defineCheckVersionTask() {
@@ -39,7 +42,7 @@ object MavenPublishDsl {
     }
 }
 
-private fun setupRepositories(project: Project) {
+private fun setupDefaultRepositories(project: Project) {
     project.run {
         publishing {
             repositories {
@@ -51,10 +54,9 @@ private fun setupRepositories(project: Project) {
             }
         }
     }
-    globalData.mavenPublish.projectsWillPublish.add(project)
 }
 
-private fun setupPublication(project: Project) {
+private fun setupDefaultPublication(project: Project) {
     project.run {
         publishing {
             publications {
@@ -67,7 +69,7 @@ private fun setupPublication(project: Project) {
             }
         }
     }
-    setupRepositories(project)
+    globalData.mavenPublish.projectsWillPublish.add(project)
 }
 
 private fun checkVersionOfProjects(project: Project) {

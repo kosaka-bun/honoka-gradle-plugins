@@ -7,6 +7,8 @@ import de.honoka.gradle.util.dsl.publishing
 import de.honoka.gradle.util.dsl.rawDependencies
 import org.gradle.api.Project
 import org.gradle.api.artifacts.Dependency
+import org.gradle.api.artifacts.dsl.RepositoryHandler
+import org.gradle.api.publish.PublicationContainer
 import org.gradle.api.publish.PublishingExtension
 import org.gradle.api.publish.maven.MavenPublication
 import org.gradle.kotlin.dsl.create
@@ -21,9 +23,14 @@ internal class MavenPublish {
 @Suppress("UnusedReceiverParameter", "unused")
 object MavenPublishDsl {
 
-    var PublishingExtension.publicationVersion: String
-        get() = currentProject.version.toString()
-        set(value) = setupVersionAndPublishing(currentProject, value)
+    fun RepositoryHandler.default() {
+        setupDefaultRepositories(currentProject)
+    }
+
+    fun PublicationContainer.default(version: String) {
+        setupDefaultRepositories(currentProject)
+        setupDefaultPublication(currentProject, version)
+    }
 
     fun PublishingExtension.defineCheckVersionTask() {
         currentProject.tasks.register("checkVersionOfProjects") {
@@ -35,9 +42,8 @@ object MavenPublishDsl {
     }
 }
 
-private fun setupVersionAndPublishing(project: Project, version: String) {
+private fun setupDefaultRepositories(project: Project) {
     project.run {
-        this.version = version
         publishing {
             repositories {
                 val isReleaseVersion = version.isReleaseVersion()
@@ -46,6 +52,14 @@ private fun setupVersionAndPublishing(project: Project, version: String) {
                 val remoteUrl = properties["remoteMavenRepositoryUrl"]?.toString() ?: return@repositories
                 maven(remoteUrl)
             }
+        }
+    }
+}
+
+private fun setupDefaultPublication(project: Project, version: String) {
+    project.run {
+        this.version = version
+        publishing {
             publications {
                 create<MavenPublication>("maven") {
                     groupId = group as String

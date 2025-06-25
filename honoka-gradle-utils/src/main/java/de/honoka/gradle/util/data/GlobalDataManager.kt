@@ -32,8 +32,8 @@ class GlobalDataManager<T : AbstractGlobalData>(private val clazz: Class<T>) {
     }
 
     fun refresh() {
-        globalDataMap = ConcurrentHashMap<Project, T>()
-        threadProjectMap = ConcurrentHashMap<Thread, Project>()
+        globalDataMap.clear()
+        threadProjectMap.clear()
     }
 
     fun getGlobalData(project: Project): T = globalDataMap[project.rootProject]!!
