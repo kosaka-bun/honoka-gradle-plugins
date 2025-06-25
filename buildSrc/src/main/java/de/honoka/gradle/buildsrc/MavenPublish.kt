@@ -10,6 +10,7 @@ import org.gradle.api.publish.PublishingExtension
 import org.gradle.api.publish.maven.MavenPublication
 import org.gradle.kotlin.dsl.create
 import org.gradle.kotlin.dsl.get
+import org.gradle.kotlin.dsl.maven
 
 private val projectsWillPublish = ArrayList<Project>()
 
@@ -31,6 +32,19 @@ val Project.rawDependencies: Set<Dependency>
         return set
     }
 
+fun PublishingExtension.setupRepositories(project: Project) {
+    project.run {
+        repositories {
+            val isReleaseVersion = version.isReleaseVersion()
+            val isDevelopmentRepository = properties["isDevelopmentRepository"]?.toString() == "true"
+            if(isReleaseVersion == isDevelopmentRepository) return@repositories
+            val remoteUrl = properties["remoteMavenRepositoryUrl"]?.toString() ?: return@repositories
+            maven(remoteUrl)
+        }
+    }
+    projectsWillPublish.add(project)
+}
+
 fun PublishingExtension.setupPublication(project: Project) {
     project.run {
         publications {
@@ -42,11 +56,7 @@ fun PublishingExtension.setupPublication(project: Project) {
             }
         }
     }
-    markAsWillPublish(project)
-}
-
-fun PublishingExtension.markAsWillPublish(project: Project) {
-    projectsWillPublish.add(project)
+    setupRepositories(project)
 }
 
 fun PublishingExtension.defineCheckVersionTask(project: Project) {

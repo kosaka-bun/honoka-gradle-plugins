@@ -1,4 +1,4 @@
-import de.honoka.gradle.buildsrc.markAsWillPublish
+import de.honoka.gradle.buildsrc.setupRepositories
 
 version = libs.versions.honoka.basic.plugin.get()
 
@@ -16,5 +16,5 @@ dependencies {
 }
 
 publishing {
-    markAsWillPublish(project)
+    setupRepositories(project)
 }
