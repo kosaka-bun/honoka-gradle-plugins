@@ -6,6 +6,13 @@ import org.gradle.api.Project
 
 internal class GlobalData {
 
+    companion object {
+
+        fun refresh() {
+            globalData = GlobalData()
+        }
+    }
+
     lateinit var rootProject: Project
 
     val dependencies: Dependencies = Dependencies()
@@ -13,4 +20,4 @@ internal class GlobalData {
     val mavenPublish: MavenPublish = MavenPublish()
 }
 
-internal lateinit var globalData: GlobalData
+internal var globalData: GlobalData = GlobalData()

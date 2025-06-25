@@ -15,8 +15,3 @@ pluginManagement {
         repositories(customRepositories)
     }
 }
-
-rootProject.name = "honoka-gradle-plugins"
-
-include("honoka-gradle-utils")
-include("honoka-basic-plugin")

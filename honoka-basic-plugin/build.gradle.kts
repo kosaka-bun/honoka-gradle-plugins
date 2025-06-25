@@ -1,3 +1,5 @@
+import de.honoka.gradle.buildsrc.markAsWillPublish
+
 version = libs.versions.honoka.basic.plugin.get()
 
 gradlePlugin {
@@ -10,5 +12,9 @@ gradlePlugin {
 }
 
 dependencies {
-    implementation("de.honoka.gradle:honoka-gradle-dsl:1.0.0-dev")
+    implementation("de.honoka.gradle:honoka-gradle-utils:1.0.0-dev")
+}
+
+publishing {
+    markAsWillPublish(project)
 }

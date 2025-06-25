@@ -1,24 +1,29 @@
 package de.honoka.gradle.plugin.basic
 
-import de.honoka.gradle.plugin.basic.ext.MavenPublishDsl
 import de.honoka.gradle.plugin.basic.model.GlobalData
 import de.honoka.gradle.plugin.basic.model.globalData
+import de.honoka.gradle.util.listener.onBuildFinished
+import de.honoka.gradle.util.project.CurrentProject
 import org.gradle.api.Plugin
 import org.gradle.api.Project
+import org.gradle.build.event.BuildEventsListenerRegistry
+import javax.inject.Inject
 
-class BasicPlugin : Plugin<Project> {
+class BasicPlugin @Inject constructor(
+    private val buildEventsListenerRegistry: BuildEventsListenerRegistry
+) : Plugin<Project> {
 
     override fun apply(project: Project) {
-        globalData = GlobalData().apply {
-            rootProject = project.rootProject
-        }
-        project.extensions.create("honokaBasic", BasicPluginDsl::class.java, project)
+        globalData.rootProject = project.rootProject
+        CurrentProject.enable(project)
+        buildEventsListenerRegistry.onBuildFinished(
+            project.gradle,
+            "honokaBasicPlugin",
+            ::onBuildFinished
+        )
     }
-}
 
-abstract class BasicPluginDsl(private val project: Project) {
-
-    fun publishing(block: MavenPublishDsl.() -> Unit) {
-        MavenPublishDsl(project).apply(block)
+    fun onBuildFinished() {
+        GlobalData.refresh()
     }
 }

@@ -1,4 +1,4 @@
-package de.honoka.gradle.dsl
+package de.honoka.gradle.util.dsl
 
 import org.gradle.api.artifacts.Dependency
 import org.gradle.api.artifacts.dsl.DependencyHandler

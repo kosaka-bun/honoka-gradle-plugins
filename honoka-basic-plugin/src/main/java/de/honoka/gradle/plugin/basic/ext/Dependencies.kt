@@ -1,17 +1,18 @@
 package de.honoka.gradle.plugin.basic.ext
 
-import de.honoka.gradle.dsl.getVersion
-import de.honoka.gradle.dsl.implementation
-import de.honoka.gradle.dsl.libVersions
 import de.honoka.gradle.plugin.basic.model.globalData
+import de.honoka.gradle.util.dsl.getVersion
+import de.honoka.gradle.util.dsl.implementation
+import de.honoka.gradle.util.dsl.libVersions
+import de.honoka.gradle.util.project.currentProject
 import org.gradle.api.artifacts.dsl.DependencyHandler
 
 internal class Dependencies {
 
-    val versions by lazy { globalData.rootProject.libVersions() }
+    val versions by lazy { currentProject.libVersions() }
 }
 
-object DependenciesStaticDsl {
+object DependenciesDsl {
 
     private fun v(key: String) = globalData.dependencies.versions.getVersion(key)
 

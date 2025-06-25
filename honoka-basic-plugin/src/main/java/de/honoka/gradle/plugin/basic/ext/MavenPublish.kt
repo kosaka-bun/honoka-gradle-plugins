@@ -1,10 +1,12 @@
 package de.honoka.gradle.plugin.basic.ext
 
-import de.honoka.gradle.dsl.publishing
-import de.honoka.gradle.dsl.rawDependencies
 import de.honoka.gradle.plugin.basic.model.globalData
+import de.honoka.gradle.util.dsl.publishing
+import de.honoka.gradle.util.dsl.rawDependencies
+import de.honoka.gradle.util.project.currentProject
 import org.gradle.api.Project
 import org.gradle.api.artifacts.Dependency
+import org.gradle.api.publish.PublishingExtension
 import org.gradle.api.publish.maven.MavenPublication
 import org.gradle.kotlin.dsl.create
 import org.gradle.kotlin.dsl.get
@@ -15,14 +17,15 @@ internal class MavenPublish {
     val projectsWillPublish = ArrayList<Project>()
 }
 
-class MavenPublishDsl(private val project: Project) {
+@Suppress("UnusedReceiverParameter")
+object MavenPublishDsl {
 
-    var version: String
-        get() = project.version.toString()
-        set(value) = setupVersionAndPublishing(project, value)
+    var PublishingExtension.publicationVersion: String
+        get() = currentProject.version.toString()
+        set(value) = setupVersionAndPublishing(currentProject, value)
 
-    fun defineCheckVersionTask() {
-        project.tasks.register("checkVersionOfProjects") {
+    fun PublishingExtension.defineCheckVersionTask() {
+        currentProject.tasks.register("checkVersionOfProjects") {
             group = "publishing"
             doLast {
                 checkVersionOfProjects()
@@ -57,7 +60,7 @@ private fun setupVersionAndPublishing(project: Project, version: String) {
 
 private fun checkVersionOfProjects() {
     val separator = "-----".repeat(7)
-    val projects = globalData.mavenPublish.projectsWillPublish + globalData.rootProject
+    val projects = listOf(globalData.rootProject) + globalData.mavenPublish.projectsWillPublish
     val dependencies = HashSet<Dependency>()
     val projectsPassed = run {
         var passed = true
@@ -88,6 +91,7 @@ private fun checkVersionOfProjects() {
     println(separator)
 }
 
+//依赖的版本号可以为null，其表示某个依赖的版本号由其他配置（如：Maven BOM）确定
 private fun Any?.isReleaseVersion(): Boolean = toString().lowercase().run {
     !(isEmpty() || this == "unspecified" || contains("dev"))
 }
