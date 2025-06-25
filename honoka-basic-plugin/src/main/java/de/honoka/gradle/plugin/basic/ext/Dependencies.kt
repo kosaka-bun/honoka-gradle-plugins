@@ -1,7 +1,7 @@
 package de.honoka.gradle.plugin.basic.ext
 
-import de.honoka.gradle.plugin.basic.model.currentProject
-import de.honoka.gradle.plugin.basic.model.globalData
+import de.honoka.gradle.plugin.basic.model.GlobalDataDefinitions.currentProject
+import de.honoka.gradle.plugin.basic.model.GlobalDataDefinitions.globalData
 import de.honoka.gradle.util.dsl.getVersion
 import de.honoka.gradle.util.dsl.implementation
 import de.honoka.gradle.util.dsl.libVersions

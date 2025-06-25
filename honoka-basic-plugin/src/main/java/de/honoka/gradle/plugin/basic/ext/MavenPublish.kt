@@ -1,8 +1,8 @@
 package de.honoka.gradle.plugin.basic.ext
 
-import de.honoka.gradle.plugin.basic.model.currentProject
-import de.honoka.gradle.plugin.basic.model.globalData
-import de.honoka.gradle.plugin.basic.model.globalDataOfRoot
+import de.honoka.gradle.plugin.basic.model.GlobalDataDefinitions.currentProject
+import de.honoka.gradle.plugin.basic.model.GlobalDataDefinitions.globalData
+import de.honoka.gradle.plugin.basic.model.GlobalDataDefinitions.globalDataOfRoot
 import de.honoka.gradle.util.dsl.publishing
 import de.honoka.gradle.util.dsl.rawDependencies
 import org.gradle.api.Project
