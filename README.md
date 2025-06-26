@@ -5,7 +5,7 @@
 [![Release](https://img.shields.io/github/release/kosaka-bun/honoka-gradle-plugins?label=Release&logo=GitHub)](../../releases)
 
 ## 简介
-Java与Kotlin项目Gradle快速配置插件集。
+Java与Kotlin项目Gradle快速配置插件集（仅适用于`build.gradle.kts`）。
 
 本项目采用Apache-2.0 License，使用本项目时，请遵守此开源许可证的相关规定。
 
@@ -22,14 +22,7 @@ Java与Kotlin项目Gradle快速配置插件集。
 
 各模块版本号请前往[Releases](../../releases)查看。
 
-### Groovy DSL
-```groovy
-plugins {
-    id 'de.honoka.gradle.plugin.basic' version '版本号'
-}
-```
-
-### Kotlin DSL
+#### Kotlin DSL
 ```kotlin
 plugins {
     id("de.honoka.gradle.plugin.basic") version "版本号"
