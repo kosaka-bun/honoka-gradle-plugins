@@ -5,6 +5,7 @@ import de.honoka.gradle.buildsrc.model.GlobalDataDefinitions.globalData
 import de.honoka.gradle.buildsrc.model.GlobalDataDefinitions.globalDataOfRoot
 import de.honoka.gradle.buildsrc.util.dsl.publishing
 import de.honoka.gradle.buildsrc.util.dsl.rawDependencies
+import de.honoka.gradle.buildsrc.util.dsl.versions
 import org.gradle.api.Project
 import org.gradle.api.artifacts.Dependency
 import org.gradle.api.artifacts.dsl.RepositoryHandler
@@ -78,6 +79,7 @@ private fun checkVersionOfProjects(project: Project) {
     val globalData = project.globalDataOfRoot
     val separator = "-----".repeat(7)
     val projects = listOf(globalData.rootProject) + globalData.mavenPublish.projectsWillPublish
+    val plugins = ArrayList<Pair<String, String?>>()
     val dependencies = HashSet<Dependency>()
     val projectsPassed = run {
         var passed = true
@@ -86,6 +88,7 @@ private fun checkVersionOfProjects(project: Project) {
             if(!passed) break
             //若project未设置version，则这里取到的version值为unspecified
             println("${it.name}=${it.version}")
+            plugins.addAll(it.plugins.versions.entries.map { it.key to it.value })
             dependencies.addAll(it.rawDependencies)
             passed = it.version.isReleaseVersion()
         }
@@ -93,6 +96,12 @@ private fun checkVersionOfProjects(project: Project) {
     }
     val dependenciesPassed = run {
         var passed = true
+        println("$separator\nGradle Plugins:\n")
+        for(it in plugins) {
+            if(!passed) break
+            println("${it.first}=${it.second}")
+            passed = it.first.isReleaseVersion()
+        }
         println("$separator\nDependencies:\n")
         for(it in dependencies) {
             if(!passed) break
