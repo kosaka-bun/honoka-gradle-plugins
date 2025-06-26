@@ -22,14 +22,14 @@ Java与Kotlin项目Gradle快速配置插件集。
 
 各模块版本号请前往[Releases](../../releases)查看。
 
-### Groovy DSL
+#### Groovy DSL
 ```groovy
 plugins {
     id 'de.honoka.gradle.plugin.basic' version '版本号'
 }
 ```
 
-### Kotlin DSL
+#### Kotlin DSL
 ```kotlin
 plugins {
     id("de.honoka.gradle.plugin.basic") version "版本号"
