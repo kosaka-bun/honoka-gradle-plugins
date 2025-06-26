@@ -12,7 +12,7 @@ gradlePlugin {
 }
 
 dependencies {
-    implementation("de.honoka.gradle:honoka-gradle-utils:1.0.0-dev")
+    implementation("de.honoka.gradle:honoka-gradle-utils:1.0.0")
 }
 
 publishing {
