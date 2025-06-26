@@ -28,8 +28,10 @@ object MavenPublishDsl {
     }
 
     fun PublicationContainer.default() {
-        setupDefaultRepositories(currentProject)
-        setupDefaultPublication(currentProject)
+        currentProject.let {
+            setupDefaultRepositories(it)
+            setupDefaultPublication(it)
+        }
     }
 
     fun PublishingExtension.defineCheckVersionTask() {
@@ -63,7 +65,7 @@ private fun setupDefaultPublication(project: Project) {
                 create<MavenPublication>("maven") {
                     groupId = group as String
                     artifactId = project.name
-                    version = project.version as String
+                    version = project.version.toString()
                     from(components["java"])
                 }
             }
