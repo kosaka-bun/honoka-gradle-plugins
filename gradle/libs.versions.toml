@@ -1,5 +1,11 @@
 [versions]
 # project modules version
-root = "1.0.0"
-honoka-gradle-utils = "1.0.0"
-honoka-basic-plugin = "1.0.0"
+p-root = "1.0.1-dev"
+p-honoka-gradle-utils = "1.0.0"
+p-honoka-basic-plugin = "1.0.1-dev"
+
+# dependencies version
+d-hbp-honoka-gradle-utils = "1.0.0"
+
+[libraries]
+hbp-honoka-gradle-utils = { module = "de.honoka.gradle:honoka-gradle-utils", version.ref = "d-hbp-honoka-gradle-utils" }

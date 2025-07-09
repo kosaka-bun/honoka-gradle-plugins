@@ -18,8 +18,8 @@ object DependenciesDsl {
     private fun v(key: String) = globalData.dependencies.versions.getVersion(key)
 
     fun DependencyHandler.kotlin() {
-        implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:${v("kotlin")}")
-        implementation("org.jetbrains.kotlin:kotlin-reflect:${v("kotlin")}")
-        implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${v("kotlin.coroutines")}")
+        implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:${v("d.kotlin")}")
+        implementation("org.jetbrains.kotlin:kotlin-reflect:${v("d.kotlin")}")
+        implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${v("d.kotlin.coroutines")}")
     }
 }

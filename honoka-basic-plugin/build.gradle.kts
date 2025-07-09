@@ -1,6 +1,6 @@
 import de.honoka.gradle.buildsrc.ext.MavenPublishDsl.default
 
-version = libs.versions.honoka.basic.plugin.get()
+version = libs.versions.p.honoka.basic.plugin.get()
 
 gradlePlugin {
     plugins {
@@ -12,7 +12,7 @@ gradlePlugin {
 }
 
 dependencies {
-    implementation("de.honoka.gradle:honoka-gradle-utils:1.0.0")
+    implementation(libs.hbp.honoka.gradle.utils)
 }
 
 publishing {

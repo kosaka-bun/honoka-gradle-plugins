@@ -10,7 +10,7 @@ plugins {
 }
 
 group = "de.honoka.gradle"
-version = libs.versions.root.get()
+version = libs.versions.p.root.get()
 
 //非Gradle插件项目
 val notPluginProjects = projects("honoka-gradle-utils")
