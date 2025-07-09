@@ -68,6 +68,10 @@ val Project.rawDependencies: Set<Dependency>
 val Project.currentProject: Project
     get() = rootProject.allprojects.first { (it.state as ProjectStateInternal).isConfiguring }
 
+fun Project.projects(vararg names: String): List<Project> = run {
+    listOf(*names).map { project(":$it") }
+}
+
 fun Project.publishing(configure: Action<PublishingExtension>) {
     extensions.configure("publishing", configure)
 }
