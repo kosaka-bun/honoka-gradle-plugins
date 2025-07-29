@@ -15,3 +15,19 @@ fun DependencyHandler.implementationApi(dn: Any): Dependency? = run {
     implementation(dn)
     api(dn)
 }
+
+fun DependencyHandler.compileOnly(dn: Any): Dependency? = run {
+    add("compileOnly", dn)
+}
+
+fun DependencyHandler.annotationProcessor(dn: Any): Dependency? = run {
+    add("annotationProcessor", dn)
+}
+
+fun DependencyHandler.testCompileOnly(dn: Any): Dependency? = run {
+    add("testCompileOnly", dn)
+}
+
+fun DependencyHandler.testAnnotationProcessor(dn: Any): Dependency? = run {
+    add("testAnnotationProcessor", dn)
+}

@@ -1,6 +1,8 @@
 import de.honoka.gradle.buildsrc.BuildSrcPlugin
 import de.honoka.gradle.buildsrc.ext.MavenPublishDsl.defineCheckVersionTask
 import de.honoka.gradle.buildsrc.util.dsl.projects
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.nio.charset.StandardCharsets
 
 plugins {
@@ -39,7 +41,7 @@ subprojects {
     }
 
     tasks {
-        compileJava {
+        withType<JavaCompile> {
             options.run {
                 encoding = StandardCharsets.UTF_8.name()
                 val compilerArgs = compilerArgs as MutableCollection<String>
@@ -47,11 +49,15 @@ subprojects {
             }
         }
 
-        compileKotlin {
-            kotlinOptions {
-                jvmTarget = java.sourceCompatibility.toString()
-                freeCompilerArgs += listOf("-Xjsr305=strict", "-Xjvm-default=all")
+        withType<KotlinCompile> {
+            compilerOptions {
+                jvmTarget.set(JvmTarget.fromTarget(java.sourceCompatibility.toString()))
+                freeCompilerArgs.addAll("-Xjsr305=strict", "-Xjvm-default=all")
             }
+        }
+
+        test {
+            useJUnitPlatform()
         }
     }
 

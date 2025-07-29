@@ -1,27 +1,33 @@
+@file:Suppress("unused")
+
 package de.honoka.gradle.plugin.basic
 
-import de.honoka.gradle.plugin.basic.model.globalDataManager
-import de.honoka.gradle.util.listener.onBuildFinished
+import de.honoka.gradle.plugin.basic.ext.DependenciesExt
+import de.honoka.gradle.plugin.basic.ext.PublishingExt
+import de.honoka.gradle.util.dsl.DslContainer
+import de.honoka.gradle.util.dsl.defineDsl
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.build.event.BuildEventsListenerRegistry
-import javax.inject.Inject
+import org.gradle.api.plugins.ExtensionAware
 
-@Suppress("unused")
-class BasicPlugin @Inject constructor(
-    private val buildEventsListenerRegistry: BuildEventsListenerRegistry
-) : Plugin<Project> {
+class BasicPlugin : Plugin<Project> {
 
     override fun apply(project: Project) {
-        globalDataManager.init(project)
-        buildEventsListenerRegistry.onBuildFinished(
-            project.gradle,
-            "honokaBasicPlugin",
-            ::onBuildFinished
-        )
+        project.defineDsl("honoka", HonokaExt::class)
     }
+}
 
-    fun onBuildFinished() {
-        globalDataManager.refresh()
+open class HonokaExt : DslContainer() {
+
+    override val defineDslsAction: ExtensionAware.() -> Unit = {
+        defineDsl("basic", BasicPluginExt::class)
+    }
+}
+
+open class BasicPluginExt : DslContainer() {
+
+    override val defineDslsAction: ExtensionAware.() -> Unit = {
+        defineDsl("dependencies", DependenciesExt::class)
+        defineDsl("publishing", PublishingExt::class)
     }
 }
