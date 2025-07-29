@@ -1,9 +1,16 @@
-import de.honoka.gradle.buildsrc.ext.MavenPublishDsl.default
+import de.honoka.gradle.buildsrc.buildSrc
+import de.honoka.gradle.buildsrc.honoka
+import de.honoka.gradle.buildsrc.publications
+import de.honoka.gradle.buildsrc.publishing
 
 version = libs.versions.p.honoka.gradle.utils.get()
 
-publishing {
-    publications {
-        default()
+honoka {
+    buildSrc {
+        publishing {
+            publications {
+                default()
+            }
+        }
     }
 }

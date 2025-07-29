@@ -1,5 +1,4 @@
-import de.honoka.gradle.buildsrc.BuildSrcPlugin
-import de.honoka.gradle.buildsrc.ext.MavenPublishDsl.defineCheckVersionTask
+import de.honoka.gradle.buildsrc.*
 import de.honoka.gradle.buildsrc.util.dsl.projects
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
@@ -28,9 +27,11 @@ subprojects {
     if(project in notPluginProjects) {
         apply(plugin = "java-library")
         apply(plugin = "org.gradle.kotlin.kotlin-dsl.base")
+
         group = rootProject.group
     } else {
         apply(plugin = "org.gradle.kotlin.kotlin-dsl")
+
         group = "${rootProject.group}.plugin"
     }
 
@@ -61,13 +62,21 @@ subprojects {
         }
     }
 
-    publishing {
-        repositories {
-            mavenLocal()
+    honoka {
+        buildSrc {
+            publishing {
+                repositories {
+                    default()
+                }
+            }
         }
     }
 }
 
-publishing {
-    defineCheckVersionTask()
+honoka {
+    buildSrc {
+        publishing {
+            defineCheckVersionTask()
+        }
+    }
 }

@@ -1,6 +1,6 @@
-package de.honoka.gradle.plugin.basic.ext
+package de.honoka.gradle.buildsrc.ext
 
-import de.honoka.gradle.util.dsl.*
+import de.honoka.gradle.buildsrc.util.dsl.*
 import org.gradle.api.Project
 import org.gradle.api.artifacts.Dependency
 import org.gradle.api.plugins.ExtensionAware
