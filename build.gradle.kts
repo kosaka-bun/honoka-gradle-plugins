@@ -1,4 +1,7 @@
-import de.honoka.gradle.buildsrc.*
+import de.honoka.gradle.buildsrc.BuildSrcPlugin
+import de.honoka.gradle.buildsrc.buildSrc
+import de.honoka.gradle.buildsrc.honoka
+import de.honoka.gradle.buildsrc.publishing
 import de.honoka.gradle.buildsrc.util.dsl.projects
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
@@ -59,16 +62,6 @@ subprojects {
 
         test {
             useJUnitPlatform()
-        }
-    }
-
-    honoka {
-        buildSrc {
-            publishing {
-                repositories {
-                    default()
-                }
-            }
         }
     }
 }

@@ -15,36 +15,15 @@ open class PublishingExt(private val project: Project) : DslContainer() {
     open class RepositoriesExt(private val project: Project) {
 
         fun default() {
-            project.run {
-                publishing {
-                    repositories {
-                        mavenLocal()
-                        val isReleaseVersion = version.isReleaseVersion()
-                        val isDevelopmentRepository = properties["isDevelopmentRepository"]?.toString() == "true"
-                        if(isReleaseVersion == isDevelopmentRepository) return@repositories
-                        val remoteUrl = properties["remoteMavenRepositoryUrl"]?.toString() ?: return@repositories
-                        maven(remoteUrl)
-                    }
-                }
-            }
+            setupDefaultRepositories(project)
         }
     }
 
     open class PublicationsExt(private val project: Project) {
 
         fun default() {
-            project.run {
-                publishing {
-                    publications {
-                        create<MavenPublication>("maven") {
-                            groupId = group as String
-                            artifactId = project.name
-                            version = project.version.toString()
-                            from(components["java"])
-                        }
-                    }
-                }
-            }
+            setupDefaultRepositories(project)
+            setupDefaultPublication(project)
         }
     }
 
@@ -117,6 +96,36 @@ open class PublishingExt(private val project: Project) : DslContainer() {
         println("results.dependenciesPassed=$dependenciesPassed")
         println("results.passed=${projectsPassed && dependenciesPassed}")
         println(separator)
+    }
+}
+
+private fun setupDefaultRepositories(project: Project) {
+    project.run {
+        publishing {
+            repositories {
+                mavenLocal()
+                val isReleaseVersion = version.isReleaseVersion()
+                val isDevelopmentRepository = properties["isDevelopmentRepository"]?.toString() == "true"
+                if(isReleaseVersion == isDevelopmentRepository) return@repositories
+                val remoteUrl = properties["remoteMavenRepositoryUrl"]?.toString() ?: return@repositories
+                maven(remoteUrl)
+            }
+        }
+    }
+}
+
+private fun setupDefaultPublication(project: Project) {
+    project.run {
+        publishing {
+            publications {
+                create<MavenPublication>("maven") {
+                    groupId = group as String
+                    artifactId = project.name
+                    version = project.version.toString()
+                    from(components["java"])
+                }
+            }
+        }
     }
 }
 

@@ -1,3 +1,8 @@
+import de.honoka.gradle.buildsrc.buildSrc
+import de.honoka.gradle.buildsrc.honoka
+import de.honoka.gradle.buildsrc.publishing
+import de.honoka.gradle.buildsrc.repositories
+
 version = libs.versions.p.honoka.basic.plugin.get()
 
 gradlePlugin {
@@ -11,4 +16,14 @@ gradlePlugin {
 
 dependencies {
     implementation(libs.hbp.honoka.gradle.utils)
+}
+
+honoka {
+    buildSrc {
+        publishing {
+            repositories {
+                default()
+            }
+        }
+    }
 }
