@@ -105,7 +105,7 @@ private fun setupDefaultRepositories(project: Project) {
             repositories {
                 mavenLocal()
                 val isReleaseVersion = version.isReleaseVersion()
-                val isDevelopmentRepository = properties["isDevelopmentRepository"]?.toString() == "true"
+                val isDevelopmentRepository = properties["isDevelopmentRepository"]?.toString() != "false"
                 if(isReleaseVersion == isDevelopmentRepository) return@repositories
                 val remoteUrl = properties["remoteMavenRepositoryUrl"]?.toString() ?: return@repositories
                 maven(remoteUrl)
