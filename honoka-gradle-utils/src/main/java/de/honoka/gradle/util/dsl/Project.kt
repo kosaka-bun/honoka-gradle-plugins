@@ -7,46 +7,7 @@ import org.gradle.api.artifacts.Dependency
 import org.gradle.api.internal.artifacts.dsl.dependencies.DefaultDependencyHandler
 import org.gradle.api.internal.catalog.VersionModel
 import org.gradle.api.internal.project.ProjectStateInternal
-import org.gradle.api.plugins.PluginContainer
 import org.gradle.api.publish.PublishingExtension
-import java.io.File
-import java.util.jar.JarFile
-
-val PluginContainer.versions: Map<String, String?>
-    get() {
-        val map = HashMap<String, String?>()
-        forEach { p ->
-            val jarUrl = p.javaClass.protectionDomain.codeSource.location
-            val jarFile = File(jarUrl.toURI()).run {
-                if(!exists()) return@forEach
-                JarFile(this)
-            }
-            val idList = run {
-                val prefix = "META-INF/gradle-plugins/"
-                val suffix = ".properties"
-                jarFile.entries().asSequence().filter {
-                    it.name.startsWith(prefix) && it.name.endsWith(suffix)
-                }.map {
-                    it.name.removePrefix(prefix).removeSuffix(suffix)
-                }.filter {
-                    runCatching {
-                        hasPlugin(it)
-                    }.getOrDefault(false)
-                }
-            }
-            val fileName = jarUrl.path.lowercase().run {
-                split('/').last().removeSuffix(".jar")
-            }
-            val version = fileName.split('-').run {
-                val index = indexOfFirst { it.contains('.') }
-                if(index > 0) subList(index, size).joinToString("-") else null
-            }
-            idList.forEach {
-                map[it] = version
-            }
-        }
-        return map
-    }
 
 val Project.rawDependencies: Set<Dependency>
     get() {
@@ -82,8 +43,6 @@ fun Project.libVersions(): Map<String, VersionModel> {
         return get(catalog) as Map<String, VersionModel>
     }
 }
-
-fun Map<String, VersionModel>.getVersion(key: String): String = get(key)?.version.toString()
 
 fun Project.projects(vararg names: String): List<Project> = run {
     listOf(*names).map { project(":$it") }
