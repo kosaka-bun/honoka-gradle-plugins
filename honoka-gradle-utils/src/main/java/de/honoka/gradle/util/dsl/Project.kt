@@ -9,6 +9,10 @@ import org.gradle.api.internal.catalog.VersionModel
 import org.gradle.api.internal.project.ProjectStateInternal
 import org.gradle.api.publish.PublishingExtension
 
+fun Project.applyPlugin(id: String) {
+    apply(mapOf("plugin" to id))
+}
+
 val Project.rawDependencies: Set<Dependency>
     get() {
         val configurationContainerField = DefaultDependencyHandler::class.java.run {

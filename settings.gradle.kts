@@ -7,6 +7,7 @@ pluginManagement {
         maven("https://maven.aliyun.com/repository/public")
         gradlePluginPortal()
         mavenCentral()
+        google()
         maven("https://mirrors.honoka.de/maven-repo/release")
         maven("https://mirrors.honoka.de/maven-repo/development")
     }
@@ -21,3 +22,4 @@ rootProject.name = "honoka-gradle-plugins"
 
 include("honoka-gradle-utils")
 include("honoka-basic-plugin")
+include("honoka-android-plugin")

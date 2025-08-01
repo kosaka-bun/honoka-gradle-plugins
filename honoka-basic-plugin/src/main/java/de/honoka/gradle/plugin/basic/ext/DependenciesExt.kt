@@ -5,7 +5,7 @@ import org.gradle.api.Project
 import org.gradle.kotlin.dsl.dependencies
 
 @Suppress("unused")
-open class DependenciesExt(private val project: Project) {
+open class DependenciesExt(val project: Project) {
 
     private val versions by lazy { project.libVersions() }
 

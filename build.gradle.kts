@@ -19,6 +19,9 @@ version = libs.versions.p.root.get()
 //非Gradle插件项目
 val notPluginProjects = projects("honoka-gradle-utils")
 
+//非Java 8项目
+val notJava8Projects = projects("honoka-android-plugin")
+
 allprojects {
     apply<BuildSrcPlugin>()
 }
@@ -39,8 +42,10 @@ subprojects {
     }
 
     java {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = sourceCompatibility
+        if(project !in notJava8Projects) {
+            sourceCompatibility = JavaVersion.VERSION_1_8
+            targetCompatibility = sourceCompatibility
+        }
         withSourcesJar()
     }
 

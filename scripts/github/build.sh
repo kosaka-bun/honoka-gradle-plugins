@@ -58,6 +58,7 @@ gradle-publish() {
 # 需要根据模块间依赖关系，按顺序多次执行不同的构建。
 #
 gradle-publish honoka-gradle-utils
+gradle-publish honoka-basic-plugin
 gradle-publish
 
 # 将maven-repo/repository目录打包，然后将tar移动到另一个单独的目录中
