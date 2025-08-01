@@ -9,7 +9,7 @@ open class DependenciesExt(val project: Project) {
 
     private val versions by lazy { project.libVersions() }
 
-    private fun v(key: String) = versions.getVersion(key)
+    private fun v(key: String): String = versions.getVersion(key)
 
     fun kotlin() {
         project.dependencies {

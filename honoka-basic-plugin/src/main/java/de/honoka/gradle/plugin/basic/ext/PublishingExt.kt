@@ -75,9 +75,12 @@ open class PublishingExt(val project: Project) : DslContainer() {
         val separator = "-----".repeat(7)
         val projects = arrayListOf(project.rootProject)
         project.allprojects.forEach {
-            it.publishing {
-                if(publications.isNotEmpty()) {
-                    projects.add(it)
+            //有些项目可能没有导入maven-publish插件，那么publishing函数就无法执行成功
+            runCatching {
+                it.publishing {
+                    if(publications.isNotEmpty()) {
+                        projects.add(it)
+                    }
                 }
             }
         }
@@ -102,13 +105,15 @@ open class PublishingExt(val project: Project) : DslContainer() {
             for(it in plugins) {
                 if(!passed) break
                 println("${it.first}=${it.second}")
-                passed = it.first.isReleaseVersion()
+                passed = it.second.isReleaseVersion()
             }
-            println("$separator\nDependencies:\n")
-            for(it in dependencies) {
-                if(!passed) break
-                println("${it.group}:${it.name}=${it.version}")
-                passed = it.version.isReleaseVersion()
+            if(passed) {
+                println("$separator\nDependencies:\n")
+                for(it in dependencies) {
+                    if(!passed) break
+                    println("${it.group}:${it.name}=${it.version}")
+                    passed = it.version.isReleaseVersion()
+                }
             }
             passed
         }

@@ -4,9 +4,12 @@ package de.honoka.gradle.plugin.android.ext
 
 import com.android.build.gradle.internal.api.DefaultAndroidSourceDirectorySet
 import de.honoka.gradle.plugin.android.util.dsl.android
+import de.honoka.gradle.plugin.basic.ext.PublishingExt
 import de.honoka.gradle.plugin.basic.ext.PublishingExt.PublicationsExt
+import de.honoka.gradle.plugin.basic.ext.PublishingExt.RepositoriesExt
 import de.honoka.gradle.util.dsl.implementation
 import de.honoka.gradle.util.dsl.publishing
+import org.gradle.api.plugins.ExtensionAware
 import org.gradle.api.publish.maven.MavenPom
 import org.gradle.api.publish.maven.MavenPublication
 import org.gradle.jvm.tasks.Jar
@@ -15,6 +18,12 @@ import org.gradle.kotlin.dsl.get
 import org.gradle.kotlin.dsl.register
 import java.io.File
 import java.nio.file.Paths
+
+fun PublishingExt.defaultAar(useThisProjectName: Boolean = false) {
+    this as ExtensionAware
+    (extensions["repositories"] as RepositoriesExt).default()
+    (extensions["publications"] as PublicationsExt).defaultAar(useThisProjectName)
+}
 
 fun PublicationsExt.defaultAar(useThisProjectName: Boolean = false) {
     project.run {
