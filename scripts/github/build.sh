@@ -20,10 +20,10 @@ check_version_of_projects_out=$(./gradlew checkVersionOfProjects)
 # 忽略单行命令的异常。
 # true是一个shell命令，它的返回值始终为0，false命令的返回值始终为1。
 #
-projects_passed=$(echo "$check_version_of_projects_out" | grep -i "results.projectsPassed=true") || true
-dependencies_passed=$(echo "$check_version_of_projects_out" | grep -i "results.dependenciesPassed=true") || true
+projects_passed=$(echo "$check_version_of_projects_out" | grep -i 'results.projectsPassed=true') || true
+dependencies_passed=$(echo "$check_version_of_projects_out" | grep -i 'results.dependenciesPassed=true') || true
 # -z表示字符串为空，-n表示字符串不为空
-if [ -n $projects_passed ] && [ -z $dependencies_passed ]; then
+if [ -n "$projects_passed" ] && [ -z "$dependencies_passed" ]; then
   echo 'Projects with release version contain dependencies with development version!'
   exit 10
 fi
@@ -32,7 +32,7 @@ fi
 repository_name=development
 is_development_version=true
 
-if [ -z $projects_passed ]; then
+if [ -z "$projects_passed" ]; then
   echo -e '\n\nUsing development repository to publish artifacts.\n'
 else
   repository_name=release
@@ -62,7 +62,7 @@ gradle-publish honoka-basic-plugin
 gradle-publish
 
 # 将maven-repo/repository目录打包，然后将tar移动到另一个单独的目录中
-find maven-repo/repository -type f -name "maven-metadata.xml*" -delete
+find maven-repo/repository -type f -name 'maven-metadata.xml*' -delete
 tar -zcf maven-repo.tar.gz maven-repo/repository
 mkdir maven-repo-changes
 mv maven-repo.tar.gz maven-repo-changes/
