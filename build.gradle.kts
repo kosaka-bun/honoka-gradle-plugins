@@ -60,7 +60,9 @@ subprojects {
 
         withType<KotlinCompile> {
             compilerOptions {
-                jvmTarget.set(JvmTarget.fromTarget(java.sourceCompatibility.toString()))
+                if(project !in notJava8Projects) {
+                    jvmTarget.set(JvmTarget.fromTarget(java.sourceCompatibility.toString()))
+                }
                 freeCompilerArgs.addAll("-Xjsr305=strict", "-Xjvm-default=all")
             }
         }

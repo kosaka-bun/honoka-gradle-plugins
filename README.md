@@ -1,5 +1,5 @@
 # Honoka Gradle Plugins
-![Gradle](https://img.shields.io/badge/Gradle-8.13-brightgreen?logo=Gradle)
+![Gradle](https://img.shields.io/badge/Gradle-9.0.0-brightgreen?logo=Gradle)
 [![License](https://img.shields.io/github/license/kosaka-bun/honoka-gradle-plugins?label=License&color=blue&logo=GitHub)](./LICENSE)
 ![GitHub Stars](https://img.shields.io/github/stars/kosaka-bun/honoka-gradle-plugins?label=Stars&logo=GitHub&style=flat)
 [![Release](https://img.shields.io/github/release/kosaka-bun/honoka-gradle-plugins?label=Release&logo=GitHub)](../../releases)

@@ -12,10 +12,10 @@ dependencies {
 
 gradlePlugin {
     plugins {
-        create("honokaBasic") {
+        create("honokaBasic", Action {
             id = "de.honoka.gradle.plugin.basic"
             implementationClass = "de.honoka.gradle.plugin.basic.BasicPlugin"
-        }
+        })
     }
 }
 
