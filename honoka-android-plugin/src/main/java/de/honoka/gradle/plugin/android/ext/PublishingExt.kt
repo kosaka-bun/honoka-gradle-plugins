@@ -7,7 +7,6 @@ import de.honoka.gradle.plugin.android.util.dsl.android
 import de.honoka.gradle.plugin.basic.ext.PublishingExt
 import de.honoka.gradle.plugin.basic.ext.PublishingExt.PublicationsExt
 import de.honoka.gradle.plugin.basic.ext.PublishingExt.RepositoriesExt
-import de.honoka.gradle.util.dsl.implementation
 import de.honoka.gradle.util.dsl.publishing
 import org.gradle.api.plugins.ExtensionAware
 import org.gradle.api.publish.maven.MavenPom
@@ -43,7 +42,7 @@ fun PublicationsExt.defaultAar(useThisProjectName: Boolean = false) {
                         rootProject.name
                     }
                     version = project.version.toString()
-                    setupAarPomDependencies(pom)
+                    setupAarPom(pom)
                     afterEvaluate {
                         val artifacts = listOf(
                             tasks["bundleReleaseAar"],
@@ -57,32 +56,26 @@ fun PublicationsExt.defaultAar(useThisProjectName: Boolean = false) {
     }
 }
 
-private fun PublicationsExt.setupAarPomDependencies(pom: MavenPom) {
+private fun PublicationsExt.setupAarPom(pom: MavenPom) {
     pom.withXml {
-        val apiDependencies = ArrayList<String>()
-        project.configurations["api"].allDependencies.forEach {
-            apiDependencies.add("${it.group}:${it.name}")
-        }
-        asNode().appendNode("dependencies").run {
-            project.configurations.implementation.configure {
-                allDependencies.forEach { d ->
-                    val isInvalidDependency = d.group == null ||
-                        d.name.lowercase() == "unspecified" ||
-                        d.version == null
-                    if(isInvalidDependency) return@forEach
-                    val moduleName = "${d.group}:${d.name}"
-                    appendNode("dependency").run {
-                        val subNodes = hashMapOf(
-                            "groupId" to d.group,
-                            "artifactId" to d.name,
-                            "version" to d.version
-                        )
-                        if(!apiDependencies.contains(moduleName)) {
-                            subNodes["scope"] = "runtime"
-                        }
-                        subNodes.forEach {
-                            appendNode(it.key, it.value)
-                        }
+        val dependencies = asNode().appendNode("dependencies")
+        listOf("implementation", "api", "runtimeOnly").forEach { configName ->
+            project.configurations[configName].allDependencies.forEach { d ->
+                val isInvalidDependency = d.group == null ||
+                    d.name.lowercase() == "unspecified" ||
+                    d.version == null
+                if(isInvalidDependency) return@forEach
+                dependencies.appendNode("dependency").run {
+                    val subNodes = hashMapOf(
+                        "groupId" to d.group,
+                        "artifactId" to d.name,
+                        "version" to d.version
+                    )
+                    if(configName != "api") {
+                        subNodes["scope"] = "runtime"
+                    }
+                    subNodes.forEach {
+                        appendNode(it.key, it.value)
                     }
                 }
             }
