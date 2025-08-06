@@ -17,9 +17,10 @@ private val vFun = DependenciesExt::class.run {
 private fun DependenciesExt.v(key: String): String = vFun.call(this, key) as String
 
 fun DependenciesExt.kotlinAndroid() {
+    kotlinBom()
     project.dependencies {
-        implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:${v("d.kotlin")}")
-        implementation("org.jetbrains.kotlin:kotlin-reflect:${v("d.kotlin")}")
-        implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:${v("d.kotlin.coroutines")}")
+        implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+        implementation("org.jetbrains.kotlin:kotlin-reflect")
+        implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android")
     }
 }

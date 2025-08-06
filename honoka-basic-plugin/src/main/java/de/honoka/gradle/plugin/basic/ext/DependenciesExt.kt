@@ -11,11 +11,21 @@ open class DependenciesExt(val project: Project) {
 
     private fun v(key: String): String = versions.getVersion(key)
 
-    fun kotlin() {
+    fun kotlinBom() {
+        val kotlin = "org.jetbrains.kotlin:kotlin-bom:${v("d.kotlin")}"
+        val kotlinCoroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-bom:${v("d.kotlin.coroutines")}"
         project.dependencies {
-            implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:${v("d.kotlin")}")
-            implementation("org.jetbrains.kotlin:kotlin-reflect:${v("d.kotlin")}")
-            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${v("d.kotlin.coroutines")}")
+            implementation(platform(kotlin))
+            implementation(platform(kotlinCoroutines))
+        }
+    }
+
+    fun kotlin() {
+        kotlinBom()
+        project.dependencies {
+            implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+            implementation("org.jetbrains.kotlin:kotlin-reflect")
+            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core")
         }
     }
 
@@ -27,5 +37,13 @@ open class DependenciesExt(val project: Project) {
             testCompileOnly(dn)
             testAnnotationProcessor(dn)
         }
+    }
+
+    fun springBootBom() {
+        val springBoot = "org.springframework.boot:spring-boot-dependencies:${v("d.spring.boot")}"
+        project.dependencies {
+            implementation(platform(springBoot))
+        }
+        kotlinBom()
     }
 }
