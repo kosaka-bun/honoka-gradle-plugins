@@ -1,12 +1,10 @@
 package de.honoka.gradle.util.dsl
 
-import org.gradle.api.NamedDomainObjectContainer
+import org.gradle.api.internal.artifacts.dependencies.DefaultExternalModuleDependency
 import org.gradle.api.internal.catalog.VersionModel
 import org.gradle.api.plugins.PluginContainer
-import org.gradle.kotlin.dsl.named
 import java.io.File
 import java.util.jar.JarFile
-import org.gradle.api.artifacts.Configuration as ArtifactsConfiguration
 
 val PluginContainer.versions: Map<String, String?>
     get() {
@@ -46,5 +44,9 @@ val PluginContainer.versions: Map<String, String?>
 
 fun Map<String, VersionModel>.getVersion(key: String): String = get(key)?.version.toString()
 
-val NamedDomainObjectContainer<ArtifactsConfiguration>.implementation
-    get() = named<ArtifactsConfiguration>("implementation")
+val DefaultExternalModuleDependency.category: String?
+    get() = attributes.run {
+        val key = keySet().firstOrNull { it.name == "org.gradle.category" }
+        key ?: return@run null
+        getAttribute(key)?.toString()
+    }

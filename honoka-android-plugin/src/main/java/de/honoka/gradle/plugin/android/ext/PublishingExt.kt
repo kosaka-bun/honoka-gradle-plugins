@@ -7,7 +7,9 @@ import de.honoka.gradle.plugin.android.util.dsl.android
 import de.honoka.gradle.plugin.basic.ext.PublishingExt
 import de.honoka.gradle.plugin.basic.ext.PublishingExt.PublicationsExt
 import de.honoka.gradle.plugin.basic.ext.PublishingExt.RepositoriesExt
+import de.honoka.gradle.util.dsl.category
 import de.honoka.gradle.util.dsl.publishing
+import org.gradle.api.internal.artifacts.dependencies.DefaultExternalModuleDependency
 import org.gradle.api.plugins.ExtensionAware
 import org.gradle.api.publish.maven.MavenPom
 import org.gradle.api.publish.maven.MavenPublication
@@ -61,16 +63,19 @@ private fun PublicationsExt.setupAarPom(pom: MavenPom) {
         val dependencies = asNode().appendNode("dependencies")
         listOf("implementation", "api", "runtimeOnly").forEach { configName ->
             project.configurations[configName].allDependencies.forEach { d ->
-                val isInvalidDependency = d.group == null ||
-                    d.name.lowercase() == "unspecified" ||
-                    d.version == null
+                val isInvalidDependency = d.group == null || d.name.lowercase() == "unspecified"
                 if(isInvalidDependency) return@forEach
+                if(d is DefaultExternalModuleDependency) {
+                    if(d.category == "platform") return@forEach
+                }
                 dependencies.appendNode("dependency").run {
                     val subNodes = hashMapOf(
                         "groupId" to d.group,
-                        "artifactId" to d.name,
-                        "version" to d.version
+                        "artifactId" to d.name
                     )
+                    d.version?.let {
+                        subNodes["version"] = it
+                    }
                     if(configName != "api") {
                         subNodes["scope"] = "runtime"
                     }
