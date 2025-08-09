@@ -3,15 +3,15 @@
 pluginManagement {
     val customRepositories: RepositoryHandler.() -> Unit = {
         mavenLocal()
-        maven("https://maven.aliyun.com/repository/gradle-plugin")
         maven("https://maven.aliyun.com/repository/public")
-        gradlePluginPortal()
         mavenCentral()
-        maven("https://mirrors.honoka.de/maven-repo/release")
-        maven("https://mirrors.honoka.de/maven-repo/development")
+        google()
+        maven("https://maven.aliyun.com/repository/gradle-plugin")
+        gradlePluginPortal()
     }
     repositories(customRepositories)
     dependencyResolutionManagement {
+        repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
         repositories(customRepositories)
     }
 }
