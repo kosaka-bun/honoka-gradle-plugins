@@ -9,6 +9,7 @@ import de.honoka.gradle.plugin.basic.ext.PublishingExt.PublicationsExt
 import de.honoka.gradle.plugin.basic.ext.PublishingExt.RepositoriesExt
 import de.honoka.gradle.util.dsl.category
 import de.honoka.gradle.util.dsl.publishing
+import org.gradle.api.internal.artifacts.dependencies.AbstractModuleDependency
 import org.gradle.api.internal.artifacts.dependencies.DefaultExternalModuleDependency
 import org.gradle.api.plugins.ExtensionAware
 import org.gradle.api.publish.maven.MavenPom
@@ -60,15 +61,17 @@ fun PublicationsExt.defaultAar(useThisProjectName: Boolean = false) {
 
 private fun PublicationsExt.setupAarPom(pom: MavenPom) {
     pom.withXml {
-        val dependencies = asNode().appendNode("dependencies")
-        listOf("implementation", "api", "runtimeOnly").forEach { configName ->
+        val dependenciesNode = asNode().appendNode("dependencies")
+        val dependencies = HashSet<String>()
+        listOf("api", "implementation", "runtimeOnly").forEach { configName ->
             project.configurations[configName].allDependencies.forEach { d ->
+                val dependencyId = "${d.group}:${d.name}"
                 val isInvalidDependency = d.group == null || d.name.lowercase() == "unspecified"
-                if(isInvalidDependency) return@forEach
+                if(dependencyId in dependencies || isInvalidDependency) return@forEach
                 if(d is DefaultExternalModuleDependency) {
                     if(d.category == "platform") return@forEach
                 }
-                dependencies.appendNode("dependency").run {
+                dependenciesNode.appendNode("dependency").run {
                     val subNodes = hashMapOf(
                         "groupId" to d.group,
                         "artifactId" to d.name
@@ -82,7 +85,17 @@ private fun PublicationsExt.setupAarPom(pom: MavenPom) {
                     subNodes.forEach {
                         appendNode(it.key, it.value)
                     }
+                    if(d !is AbstractModuleDependency || d.excludeRules.isEmpty()) return@run
+                    appendNode("exclusions").run {
+                        d.excludeRules.forEach {
+                            appendNode("exclusion").run {
+                                appendNode("groupId", it.group)
+                                appendNode("artifactId", it.module)
+                            }
+                        }
+                    }
                 }
+                dependencies.add(dependencyId)
             }
         }
     }
