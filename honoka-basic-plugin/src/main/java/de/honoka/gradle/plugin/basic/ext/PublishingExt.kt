@@ -75,14 +75,8 @@ open class PublishingExt(val project: Project) : DslContainer() {
         val separator = "-----".repeat(7)
         val projects = arrayListOf(project.rootProject)
         project.allprojects.forEach {
-            //有些项目可能没有导入maven-publish插件，那么publishing函数就无法执行成功
-            runCatching {
-                it.publishing {
-                    if(publications.isNotEmpty()) {
-                        projects.add(it)
-                    }
-                }
-            }
+            if(it.version == "unspecified") return@forEach
+            projects.add(it)
         }
         val plugins = ArrayList<Pair<String, String?>>()
         val dependencies = ArrayList<Dependency>()

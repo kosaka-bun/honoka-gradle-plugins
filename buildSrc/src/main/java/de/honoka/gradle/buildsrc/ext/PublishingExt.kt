@@ -75,14 +75,11 @@ open class PublishingExt(private val project: Project) : DslContainer() {
         val separator = "-----".repeat(7)
         val projects = arrayListOf(project.rootProject)
         project.allprojects.forEach {
-            it.publishing {
-                if(publications.isNotEmpty()) {
-                    projects.add(it)
-                }
-            }
+            if(it.version == "unspecified") return@forEach
+            projects.add(it)
         }
         val plugins = ArrayList<Pair<String, String?>>()
-        val dependencies = HashSet<Dependency>()
+        val dependencies = ArrayList<Dependency>()
         val projectsPassed = run {
             var passed = true
             println("$separator\nVersions:\n")
@@ -96,21 +93,35 @@ open class PublishingExt(private val project: Project) : DslContainer() {
             }
             passed
         }
-        val dependenciesPassed = run {
+        val dependenciesPassed = if(projectsPassed) {
+            val pluginInfos = HashSet<String>()
+            val dependencyInfos = HashSet<String>()
             var passed = true
             println("$separator\nGradle Plugins:\n")
             for(it in plugins) {
                 if(!passed) break
-                println("${it.first}=${it.second}")
-                passed = it.first.isReleaseVersion()
+                val info = "${it.first}=${it.second}"
+                if(info !in pluginInfos) {
+                    println(info)
+                    pluginInfos.add(info)
+                }
+                passed = it.second.isReleaseVersion()
             }
-            println("$separator\nDependencies:\n")
-            for(it in dependencies) {
-                if(!passed) break
-                println("${it.group}:${it.name}=${it.version}")
-                passed = it.version.isReleaseVersion()
+            if(passed) {
+                println("$separator\nDependencies:\n")
+                for(it in dependencies) {
+                    if(!passed) break
+                    val info = "${it.group}:${it.name}=${it.version}"
+                    if(info !in dependencyInfos) {
+                        println(info)
+                        dependencyInfos.add(info)
+                    }
+                    passed = it.version.isReleaseVersion()
+                }
             }
             passed
+        } else {
+            false
         }
         println("$separator\nResults:\n")
         println("results.projectsPassed=$projectsPassed")
