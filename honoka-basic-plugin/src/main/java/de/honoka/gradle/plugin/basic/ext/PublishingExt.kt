@@ -85,7 +85,7 @@ open class PublishingExt(val project: Project) : DslContainer() {
             }
         }
         val plugins = ArrayList<Pair<String, String?>>()
-        val dependencies = HashSet<Dependency>()
+        val dependencies = ArrayList<Dependency>()
         val projectsPassed = run {
             var passed = true
             println("$separator\nVersions:\n")
@@ -99,23 +99,35 @@ open class PublishingExt(val project: Project) : DslContainer() {
             }
             passed
         }
-        val dependenciesPassed = run {
+        val dependenciesPassed = if(projectsPassed) {
+            val pluginInfos = HashSet<String>()
+            val dependencyInfos = HashSet<String>()
             var passed = true
             println("$separator\nGradle Plugins:\n")
             for(it in plugins) {
                 if(!passed) break
-                println("${it.first}=${it.second}")
+                val info = "${it.first}=${it.second}"
+                if(info !in pluginInfos) {
+                    println(info)
+                    pluginInfos.add(info)
+                }
                 passed = it.second.isReleaseVersion()
             }
             if(passed) {
                 println("$separator\nDependencies:\n")
                 for(it in dependencies) {
                     if(!passed) break
-                    println("${it.group}:${it.name}=${it.version}")
+                    val info = "${it.group}:${it.name}=${it.version}"
+                    if(info !in dependencyInfos) {
+                        println(info)
+                        dependencyInfos.add(info)
+                    }
                     passed = it.version.isReleaseVersion()
                 }
             }
             passed
+        } else {
+            false
         }
         println("$separator\nResults:\n")
         println("results.projectsPassed=$projectsPassed")

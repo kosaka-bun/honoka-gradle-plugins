@@ -8,6 +8,8 @@ pluginManagement {
         google()
         maven("https://maven.aliyun.com/repository/gradle-plugin")
         gradlePluginPortal()
+        maven("https://mirrors.honoka.de/maven-repo/release")
+        maven("https://mirrors.honoka.de/maven-repo/development")
     }
     repositories(customRepositories)
     dependencyResolutionManagement {

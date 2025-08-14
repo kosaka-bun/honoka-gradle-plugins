@@ -11,11 +11,6 @@ fun DependencyHandler.api(dn: Any): Dependency? = run {
     add("api", dn)
 }
 
-fun DependencyHandler.implementationApi(dn: Any): Dependency? = run {
-    implementation(dn)
-    api(dn)
-}
-
 fun DependencyHandler.compileOnly(dn: Any): Dependency? = run {
     add("compileOnly", dn)
 }

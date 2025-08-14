@@ -1,13 +1,13 @@
 [versions]
 # project modules version
-p-root = "1.0.2"
+p-root = "1.0.3-dev"
 p-honoka-gradle-utils = "1.0.2"
-p-honoka-basic-plugin = "1.0.2"
-p-honoka-android-plugin = "1.0.0"
+p-honoka-basic-plugin = "1.0.3-dev"
+p-honoka-android-plugin = "1.0.1-dev"
 
 # dependencies version
 d-hbp-honoka-gradle-utils = "1.0.2"
-d-hap-honoka-basic-plugin = "1.0.2"
+d-hap-honoka-basic-plugin = "1.0.3-dev"
 android-gradle-plugin = "8.0.0"
 
 [libraries]
