@@ -1,5 +1,20 @@
 # 更新日志
 
+## 1.0.2
+#### 工程
+- 更新Gradle版本为9.0.0。
+
+#### honoka-gradle-utils 1.0.2
+- 添加了一些常用的DSL。
+
+#### honoka-basic-plugin 1.0.2
+- 优化了部分代码结构。
+- 修正了`checkVersionOfProjects`任务中存在的问题。
+- 新增了`kotlinBom`与`springBootBom`的快速依赖配置。
+
+#### honoka-android-plugin 1.0.0
+- 起始版本。在honoka-basic-plugin的基础上扩展实现了`kotlinAndroid`快速依赖配置，以及aar包默认发布配置。
+
 ## 1.0.1
 #### 工程
 - 更新Gradle版本为8.13。

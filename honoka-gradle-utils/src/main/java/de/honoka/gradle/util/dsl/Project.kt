@@ -25,7 +25,7 @@ val Project.rawDependencies: Set<Dependency>
         val set = HashSet<Dependency>()
         configurationContainer.forEach {
             it.dependencies.forEach { dep ->
-                set.add(dep as Dependency)
+                set.add(dep)
             }
         }
         return set
