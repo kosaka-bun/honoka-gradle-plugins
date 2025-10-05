@@ -34,9 +34,21 @@ val Project.rawDependencies: Set<Dependency>
 val Project.currentProject: Project
     get() = rootProject.allprojects.first { (it.state as ProjectStateInternal).isConfiguring }
 
+fun Project.libVersions(): Map<String, String> {
+    val result = HashMap<String, String>()
+    listOf("globalLibs", "libs").forEach {
+        result.putAll(parseLibVersions(this, it))
+    }
+    return result
+}
+
 @Suppress("UNCHECKED_CAST")
-fun Project.libVersions(): Map<String, VersionModel> {
-    val libs = rootProject.extensions.getByName("libs")
+private fun parseLibVersions(project: Project, catalogName: String): Map<String, String> {
+    val libs = runCatching {
+        project.rootProject.extensions.getByName(catalogName)
+    }.getOrElse {
+        return mapOf()
+    }
     val versions = libs.javaClass.getDeclaredMethod("getVersions").invoke(libs)
     val catalog = versions.javaClass.superclass.getDeclaredField("config").run {
         isAccessible = true
@@ -44,7 +56,8 @@ fun Project.libVersions(): Map<String, VersionModel> {
     }
     catalog.javaClass.getDeclaredField("versions").run {
         isAccessible = true
-        return get(catalog) as Map<String, VersionModel>
+        val result = get(catalog) as Map<String, VersionModel>
+        return result.mapValues { it.value.version.toString() }
     }
 }
 

@@ -6,7 +6,7 @@ import de.honoka.gradle.buildsrc.repositories
 version = libs.versions.p.honoka.basic.plugin.get()
 
 dependencies {
-    api(libs.hbp.honoka.gradle.utils)
+    api(libs.honoka.gradle.utils)
 }
 
 gradlePlugin {

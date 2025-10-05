@@ -10,7 +10,7 @@ java {
 }
 
 dependencies {
-    implementation(libs.hap.honoka.basic.plugin)
+    implementation(libs.honoka.basic.plugin)
     compileOnly(libs.android.gradle.plugin)
 }
 

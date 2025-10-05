@@ -1,7 +1,6 @@
 package de.honoka.gradle.util.dsl
 
 import org.gradle.api.internal.artifacts.dependencies.DefaultExternalModuleDependency
-import org.gradle.api.internal.catalog.VersionModel
 import org.gradle.api.plugins.PluginContainer
 import java.io.File
 import java.util.jar.JarFile
@@ -41,8 +40,6 @@ val PluginContainer.versions: Map<String, String?>
         }
         return map
     }
-
-fun Map<String, VersionModel>.getVersion(key: String): String = get(key)?.version.toString()
 
 val DefaultExternalModuleDependency.category: String?
     get() = attributes.run {

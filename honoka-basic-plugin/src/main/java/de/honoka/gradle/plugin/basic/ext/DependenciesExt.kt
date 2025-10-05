@@ -9,11 +9,9 @@ open class DependenciesExt(val project: Project) {
 
     private val versions by lazy { project.libVersions() }
 
-    private fun v(key: String): String = versions.getVersion(key)
-
     fun kotlinBom() {
-        val kotlin = "org.jetbrains.kotlin:kotlin-bom:${v("d.kotlin")}"
-        val kotlinCoroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-bom:${v("d.kotlin.coroutines")}"
+        val kotlin = "org.jetbrains.kotlin:kotlin-bom:${versions["d.kotlin"]}"
+        val kotlinCoroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-bom:${versions["d.kotlin.coroutines"]}"
         project.dependencies {
             implementation(platform(kotlin))
             implementation(platform(kotlinCoroutines))
@@ -30,7 +28,7 @@ open class DependenciesExt(val project: Project) {
     }
 
     fun lombok() {
-        val dn = "org.projectlombok:lombok:${v("d.lombok")}"
+        val dn = "org.projectlombok:lombok:${versions["d.lombok"]}"
         project.dependencies {
             compileOnly(dn)
             annotationProcessor(dn)
@@ -40,7 +38,7 @@ open class DependenciesExt(val project: Project) {
     }
 
     fun springBootBom() {
-        val springBoot = "org.springframework.boot:spring-boot-dependencies:${v("d.spring.boot")}"
+        val springBoot = "org.springframework.boot:spring-boot-dependencies:${versions["d.spring.boot"]}"
         project.dependencies {
             implementation(platform(springBoot))
         }
