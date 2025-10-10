@@ -68,10 +68,8 @@ subprojects {
     }
 }
 
-honoka {
-    buildSrc {
-        publishing {
-            defineCheckVersionTask()
-        }
+honoka.buildSrc {
+    publishing {
+        defineCheckVersionTask()
     }
 }

@@ -36,7 +36,7 @@ val Project.currentProject: Project
 
 fun Project.libVersions(): Map<String, String> {
     val result = HashMap<String, String>()
-    listOf("globalLibs", "libs").forEach {
+    listOf("commonLibs", "libs").forEach {
         result.putAll(parseLibVersions(this, it))
     }
     return result
