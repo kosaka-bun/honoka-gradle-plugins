@@ -44,4 +44,13 @@ open class DependenciesExt(val project: Project) {
         }
         kotlinBom()
     }
+
+    fun springBootConfigProcessor() {
+        val configProcessor = "org.springframework.boot:spring-boot-configuration-processor:${
+            versions["d.spring.boot"]
+        }"
+        project.dependencies {
+            kapt(configProcessor)
+        }
+    }
 }

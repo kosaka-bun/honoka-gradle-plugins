@@ -26,3 +26,7 @@ fun DependencyHandler.testCompileOnly(dn: Any): Dependency? = run {
 fun DependencyHandler.testAnnotationProcessor(dn: Any): Dependency? = run {
     add("testAnnotationProcessor", dn)
 }
+
+fun DependencyHandler.kapt(dn: Any): Dependency? = run {
+    add("kapt", dn)
+}
