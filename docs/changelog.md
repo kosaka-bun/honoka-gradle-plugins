@@ -1,5 +1,19 @@
 # 更新日志
 
+## 1.0.3
+#### honoka-gradle-utils 1.0.3
+- 将`Project.libVersions()`的返回值类型更改为`Map<String, String>`。
+- `Project.libVersions()`现在可从`commonLibs`与`libs`两个版本目录对象中读取版本号列表。若靠后的版本目录中包含某些与已读取的版本号的名称相同的版本号，则靠后的版本号将会覆盖已有的同名版本号。
+- 新增`DependencyHandler.kapt()`。
+
+#### honoka-basic-plugin 1.0.3
+- `checkVersionOfProjects`任务不展示重复的依赖项，只检查设置了版本号的项目。
+- 适配新版的`Project.libVersions()`。
+- 新增`DependenciesExt.springBootConfigProcessor()`。
+
+#### honoka-android-plugin 1.0.1
+- 适配新版的`Project.libVersions()`。
+
 ## 1.0.2
 #### 工程
 - 更新Gradle版本为9.0.0。
