@@ -2,7 +2,5 @@
   "separateProjects": [
     "honoka-gradle-utils",
     "honoka-basic-plugin"
-  ],
-  "gitUsername": "Kosaka Bun",
-  "gitEmail": "kosaka-bun@qq.com"
+  ]
 }
