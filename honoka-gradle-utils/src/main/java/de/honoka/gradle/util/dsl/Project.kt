@@ -1,5 +1,6 @@
 package de.honoka.gradle.util.dsl
 
+import org.gradle.accessors.dm.LibrariesForLibs
 import org.gradle.api.Action
 import org.gradle.api.Project
 import org.gradle.api.artifacts.ConfigurationContainer
@@ -33,6 +34,9 @@ val Project.rawDependencies: Set<Dependency>
 
 val Project.currentProject: Project
     get() = rootProject.allprojects.first { (it.state as ProjectStateInternal).isConfiguring }
+
+val Project.libs: LibrariesForLibs
+    get() = rootProject.extensions.getByName("libs") as LibrariesForLibs
 
 fun Project.libVersions(): Map<String, String> {
     val result = HashMap<String, String>()

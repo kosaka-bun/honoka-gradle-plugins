@@ -86,7 +86,7 @@ open class PublishingExt(private val project: Project) : DslContainer() {
             for(it in projects) {
                 if(!passed) break
                 //若project未设置version，则这里取到的version值为unspecified
-                println("${it.name}=${it.version}")
+                println("${it.name}=${it.version} (path: ${it.path})")
                 plugins.addAll(it.plugins.versions.entries.map { it.key to it.value })
                 dependencies.addAll(it.rawDependencies)
                 passed = it.version.isReleaseVersion()

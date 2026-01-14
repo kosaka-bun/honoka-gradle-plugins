@@ -1,5 +1,6 @@
 package de.honoka.gradle.buildsrc.util.dsl
 
+import org.gradle.accessors.dm.LibrariesForLibs
 import org.gradle.api.Action
 import org.gradle.api.Project
 import org.gradle.api.artifacts.ConfigurationContainer
@@ -63,6 +64,9 @@ val Project.rawDependencies: Set<Dependency>
         }
         return set
     }
+
+val Project.libs: LibrariesForLibs
+    get() = rootProject.extensions.getByName("libs") as LibrariesForLibs
 
 fun Project.projects(vararg names: String): List<Project> = run {
     listOf(*names).map { project(":$it") }

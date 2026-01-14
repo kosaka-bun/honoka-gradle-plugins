@@ -16,7 +16,7 @@ group = "de.honoka.gradle"
 version = libs.versions.p.root.get()
 
 //非Gradle插件项目
-val notPluginProjects = projects("honoka-gradle-utils")
+val notPluginProjects = projects("honoka-gradle-utils", "stubs")
 
 //非Java 8项目
 val notJava8Projects = projects("honoka-android-plugin")
@@ -45,6 +45,13 @@ subprojects {
             toolchain.languageVersion = JavaLanguageVersion.of(8)
         }
         withSourcesJar()
+    }
+
+    dependencies {
+        val stubs = project(":stubs")
+        if(project.path != stubs.path) {
+            compileOnly(stubs)
+        }
     }
 
     tasks {

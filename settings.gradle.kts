@@ -27,3 +27,4 @@ rootProject.name = "honoka-gradle-plugins"
 include("honoka-gradle-utils")
 include("honoka-basic-plugin")
 include("honoka-android-plugin")
+include("stubs")
