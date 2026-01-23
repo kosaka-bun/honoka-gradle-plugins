@@ -1,5 +1,6 @@
 package de.honoka.gradle.util.dsl
 
+import de.honoka.gradle.util.data.ClassifiedProjects
 import org.gradle.accessors.dm.LibrariesForLibs
 import org.gradle.api.Action
 import org.gradle.api.Project
@@ -65,10 +66,29 @@ private fun parseLibVersions(project: Project, catalogName: String): Map<String,
     }
 }
 
-fun Project.projects(vararg names: String): List<Project> = run {
-    listOf(*names).map { project(":$it") }
+fun Project.project(name: String, rootPrefix: Boolean = false): Project {
+    val realName = name.removePrefix(":").run {
+        if(rootPrefix) {
+            split(":").joinToString(":") { "${rootProject.name}-$it" }
+        } else {
+            this
+        }
+    }
+    return project(":$realName")
 }
+
+fun Project.projects(vararg names: String, rootPrefix: Boolean = false): Set<Project> =
+    names.mapTo(hashSetOf()) { project(it, rootPrefix) }
 
 fun Project.publishing(configure: Action<PublishingExtension>) {
     extensions.configure("publishing", configure)
+}
+
+fun classifyProjects(block: ClassifiedProjects.() -> Unit): ClassifiedProjects =
+    ClassifiedProjects().apply(block)
+
+fun Set<Project>.configure(block: Project.() -> Unit) {
+    forEach {
+        it.block()
+    }
 }

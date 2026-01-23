@@ -10,9 +10,9 @@ import org.gradle.kotlin.dsl.get
 import org.gradle.kotlin.dsl.maven
 
 @Suppress("unused")
-open class PublishingExt(private val project: Project) : DslContainer() {
+open class PublishingExt(val project: Project) : DslContainer() {
 
-    open class RepositoriesExt(private val project: Project) {
+    open class RepositoriesExt(val project: Project) {
 
         fun default() {
             project.run {
@@ -30,7 +30,7 @@ open class PublishingExt(private val project: Project) : DslContainer() {
         }
     }
 
-    open class PublicationsExt(private val project: Project) {
+    open class PublicationsExt(val project: Project) {
 
         fun default() {
             project.run {

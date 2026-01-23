@@ -2,6 +2,7 @@ import de.honoka.gradle.buildsrc.BuildSrcPlugin
 import de.honoka.gradle.buildsrc.buildSrc
 import de.honoka.gradle.buildsrc.honoka
 import de.honoka.gradle.buildsrc.publishing
+import de.honoka.gradle.buildsrc.util.dsl.classifyProjects
 import de.honoka.gradle.buildsrc.util.dsl.projects
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.nio.charset.StandardCharsets
@@ -15,11 +16,10 @@ plugins {
 group = "de.honoka.gradle"
 version = libs.versions.p.root.get()
 
-//非Gradle插件项目
-val notPluginProjects = projects("honoka-gradle-utils", "stubs")
-
-//非Java 8项目
-val notJava8Projects = projects("honoka-android-plugin")
+val projects = classifyProjects {
+    java8 = subprojects - projects("honoka-android-plugin")
+    gradlePlugin = subprojects - projects("honoka-gradle-utils", "stubs")
+}
 
 allprojects {
     apply<BuildSrcPlugin>()
@@ -29,7 +29,7 @@ subprojects {
     apply(plugin = "java")
     apply(plugin = "maven-publish")
 
-    if(project in notPluginProjects) {
+    if(project !in projects.gradlePlugin) {
         apply(plugin = "java-library")
         apply(plugin = "org.gradle.kotlin.kotlin-dsl.base")
 
@@ -41,7 +41,7 @@ subprojects {
     }
 
     java {
-        if(project !in notJava8Projects) {
+        if(project in projects.java8) {
             toolchain.languageVersion = JavaLanguageVersion.of(8)
         }
         withSourcesJar()

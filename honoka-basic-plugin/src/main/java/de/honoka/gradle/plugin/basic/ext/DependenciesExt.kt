@@ -3,6 +3,7 @@ package de.honoka.gradle.plugin.basic.ext
 import de.honoka.gradle.util.dsl.*
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.dependencies
+import org.gradle.kotlin.dsl.exclude
 
 @Suppress("unused")
 open class DependenciesExt(val project: Project) {
@@ -10,11 +11,14 @@ open class DependenciesExt(val project: Project) {
     private val versions by lazy { project.libVersions() }
 
     fun kotlinBom() {
-        val kotlin = "org.jetbrains.kotlin:kotlin-bom:${versions["d.kotlin"]}"
-        val kotlinCoroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-bom:${versions["d.kotlin.coroutines"]}"
+        val boms = listOf(
+            "org.jetbrains.kotlin:kotlin-bom:${versions["d.kotlin"]}",
+            "org.jetbrains.kotlinx:kotlinx-coroutines-bom:${versions["d.kotlin.coroutines"]}"
+        )
         project.dependencies {
-            implementation(platform(kotlin))
-            implementation(platform(kotlinCoroutines))
+            boms.forEach {
+                implementation(platform(it))
+            }
         }
     }
 
@@ -38,19 +42,21 @@ open class DependenciesExt(val project: Project) {
     }
 
     fun springBootBom() {
-        val springBoot = "org.springframework.boot:spring-boot-dependencies:${versions["d.spring.boot"]}"
+        val dn = "org.springframework.boot:spring-boot-dependencies:${versions["d.spring.boot"]}"
         project.dependencies {
-            implementation(platform(springBoot))
+            implementation(platform(dn)) {
+                exclude("org.jetbrains.kotlin")
+                exclude("org.jetbrains.kotlinx")
+            }
         }
-        kotlinBom()
     }
 
     fun springBootConfigProcessor() {
-        val configProcessor = "org.springframework.boot:spring-boot-configuration-processor:${
+        val dn = "org.springframework.boot:spring-boot-configuration-processor:${
             versions["d.spring.boot"]
         }"
         project.dependencies {
-            kapt(configProcessor)
+            kapt(dn)
         }
     }
 }
