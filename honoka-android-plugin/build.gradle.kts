@@ -1,9 +1,5 @@
 version = libs.versions.p.honoka.android.plugin.get()
 
-java {
-    toolchain.languageVersion = JavaLanguageVersion.of(11)
-}
-
 dependencies {
     implementation(libs.honoka.basic.plugin)
     compileOnly(libs.android.gradle.plugin)

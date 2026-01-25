@@ -8,7 +8,7 @@ p-honoka-android-plugin = "1.0.2-dev"
 # dependencies version
 d-honoka-gradle-utils = "1.0.4-dev"
 d-honoka-basic-plugin = "1.0.4-dev"
-android-gradle-plugin = "8.0.0"
+android-gradle-plugin = "9.0.0"
 
 [libraries]
 honoka-gradle-utils = { module = "de.honoka.gradle:honoka-gradle-utils", version.ref = "d-honoka-gradle-utils" }

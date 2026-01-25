@@ -17,7 +17,6 @@ group = "de.honoka.gradle"
 version = libs.versions.p.root.get()
 
 val projects = classifyProjects {
-    java8 = subprojects - projects("honoka-android-plugin")
     gradlePlugin = subprojects - projects("honoka-gradle-utils", "stubs")
 }
 
@@ -41,9 +40,7 @@ subprojects {
     }
 
     java {
-        if(project in projects.java8) {
-            toolchain.languageVersion = JavaLanguageVersion.of(8)
-        }
+        toolchain.languageVersion = JavaLanguageVersion.of(17)
         withSourcesJar()
     }
 
