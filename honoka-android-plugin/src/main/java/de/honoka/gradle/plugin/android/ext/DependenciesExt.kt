@@ -2,8 +2,8 @@
 
 package de.honoka.gradle.plugin.android.ext
 
+import de.honoka.gradle.plugin.basic.dsl.implementation
 import de.honoka.gradle.plugin.basic.ext.DependenciesExt
-import de.honoka.gradle.util.dsl.implementation
 import org.gradle.kotlin.dsl.dependencies
 
 fun DependenciesExt.kotlinAndroid() {

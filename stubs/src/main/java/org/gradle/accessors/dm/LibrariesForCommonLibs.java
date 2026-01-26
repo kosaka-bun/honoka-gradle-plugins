@@ -7,9 +7,9 @@ import org.gradle.api.internal.catalog.DefaultVersionCatalog;
 import org.gradle.api.model.ObjectFactory;
 import org.gradle.api.provider.ProviderFactory;
 
-public class LibrariesForLibs extends AbstractExternalDependencyFactory {
+public class LibrariesForCommonLibs extends AbstractExternalDependencyFactory {
 
-    public LibrariesForLibs(
+    public LibrariesForCommonLibs(
         DefaultVersionCatalog config,
         ProviderFactory providers,
         ObjectFactory objects,

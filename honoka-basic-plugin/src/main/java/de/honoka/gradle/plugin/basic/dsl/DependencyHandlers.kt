@@ -1,4 +1,4 @@
-package de.honoka.gradle.buildsrc.util.dsl
+package de.honoka.gradle.plugin.basic.dsl
 
 import org.gradle.api.artifacts.Dependency
 import org.gradle.api.artifacts.ModuleDependency
@@ -27,6 +27,9 @@ fun DependencyHandler.compileOnly(dn: Any, config: Config? = null): Dependency? 
 
 fun DependencyHandler.annotationProcessor(dn: Any, config: Config? = null): Dependency? =
     add("annotationProcessor", dn, config)
+
+fun DependencyHandler.testImplementation(dn: Any, config: Config? = null): Dependency? =
+    add("testImplementation", dn, config)
 
 fun DependencyHandler.testCompileOnly(dn: Any, config: Config? = null): Dependency? =
     add("testCompileOnly", dn, config)

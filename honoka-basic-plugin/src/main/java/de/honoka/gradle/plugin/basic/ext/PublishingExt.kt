@@ -1,16 +1,17 @@
 package de.honoka.gradle.plugin.basic.ext
 
-import de.honoka.gradle.util.dsl.*
+import de.honoka.gradle.plugin.basic.dsl.publishing
+import de.honoka.gradle.util.dsl.BaseExtension
+import de.honoka.gradle.util.dsl.rawDependencies
+import de.honoka.gradle.util.dsl.versions
 import org.gradle.api.Project
 import org.gradle.api.artifacts.Dependency
-import org.gradle.api.plugins.ExtensionAware
 import org.gradle.api.publish.maven.MavenPublication
 import org.gradle.kotlin.dsl.create
 import org.gradle.kotlin.dsl.get
 import org.gradle.kotlin.dsl.maven
 
-@Suppress("unused")
-open class PublishingExt(val project: Project) : DslContainer() {
+open class PublishingExt(val project: Project) : BaseExtension() {
 
     open class RepositoriesExt(val project: Project) {
 
@@ -48,7 +49,7 @@ open class PublishingExt(val project: Project) : DslContainer() {
         }
     }
 
-    override val defineDslsAction: ExtensionAware.() -> Unit = {
+    override fun defineDsls() {
         repositories = defineDsl("repositories", RepositoriesExt::class)
         publications = defineDsl("publications", PublicationsExt::class)
     }

@@ -7,14 +7,14 @@ dependencies {
 
 gradlePlugin {
     plugins {
-        create("honokaAndroid", Action {
+        create("honokaAndroid") {
             id = "de.honoka.gradle.plugin.android"
             implementationClass = "de.honoka.gradle.plugin.android.AndroidPlugin"
-        })
+        }
     }
 }
 
-honoka.buildSrc {
+honoka.basic {
     publishing {
         repositories {
             default()

@@ -1,16 +1,11 @@
-import de.honoka.gradle.buildsrc.BuildSrcPlugin
-import de.honoka.gradle.buildsrc.buildSrc
-import de.honoka.gradle.buildsrc.honoka
-import de.honoka.gradle.buildsrc.publishing
-import de.honoka.gradle.buildsrc.util.dsl.classifyProjects
-import de.honoka.gradle.buildsrc.util.dsl.projects
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-import java.nio.charset.StandardCharsets
+import de.honoka.gradle.plugin.basic.BasicPlugin
+import de.honoka.gradle.plugin.basic.dsl.*
+import de.honoka.gradle.util.data.classifyProjects
+import de.honoka.gradle.util.dsl.applier
+import de.honoka.gradle.util.dsl.projects
 
 plugins {
-    java
-    `maven-publish`
-    `kotlin-dsl-base`
+    `kotlin-dsl` apply false
 }
 
 group = "de.honoka.gradle"
@@ -21,27 +16,33 @@ val projects = classifyProjects {
 }
 
 allprojects {
-    apply<BuildSrcPlugin>()
+    applier.clazz<BasicPlugin>()
 }
 
 subprojects {
-    apply(plugin = "java")
-    apply(plugin = "maven-publish")
+    applier {
+        java
+        `maven-publish`
+    }
 
     if(project !in projects.gradlePlugin) {
-        apply(plugin = "java-library")
-        apply(plugin = "org.gradle.kotlin.kotlin-dsl.base")
+        applier {
+            `java-library`
+            `kotlin-dsl-base`
+        }
 
         group = rootProject.group
     } else {
-        apply(plugin = "org.gradle.kotlin.kotlin-dsl")
+        applier.`kotlin-dsl`
 
         group = "${rootProject.group}.plugin"
     }
 
-    java {
-        toolchain.languageVersion = JavaLanguageVersion.of(17)
-        withSourcesJar()
+    honoka.basic {
+        configs {
+            java(17, true)
+            kotlin()
+        }
     }
 
     dependencies {
@@ -50,29 +51,9 @@ subprojects {
             compileOnly(stubs)
         }
     }
-
-    tasks {
-        withType<JavaCompile> {
-            options.run {
-                encoding = StandardCharsets.UTF_8.name()
-                val compilerArgs = compilerArgs as MutableCollection<String>
-                compilerArgs += listOf("-parameters")
-            }
-        }
-
-        withType<KotlinCompile> {
-            compilerOptions {
-                freeCompilerArgs.addAll("-Xjsr305=strict", "-Xjvm-default=all")
-            }
-        }
-
-        withType<Test> {
-            useJUnitPlatform()
-        }
-    }
 }
 
-honoka.buildSrc {
+honoka.basic {
     publishing {
         defineCheckVersionTask()
     }

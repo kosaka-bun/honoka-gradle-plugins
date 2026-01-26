@@ -1,9 +1,12 @@
 package de.honoka.gradle.util.dsl
 
 import org.gradle.api.internal.artifacts.dependencies.DefaultExternalModuleDependency
+import org.gradle.api.plugins.ExtensionAware
 import org.gradle.api.plugins.PluginContainer
 import java.io.File
 import java.util.jar.JarFile
+
+fun Any.asExt(): ExtensionAware = this as ExtensionAware
 
 val PluginContainer.versions: Map<String, String?>
     get() {

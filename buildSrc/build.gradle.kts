@@ -2,16 +2,28 @@ plugins {
     `kotlin-dsl`
 }
 
-sourceSets.create("stub", Action {
-    java.srcDir("/src/stub/java")
-})
+sourceSets {
+    val suffix = "src/main/java"
+
+    main {
+        java.srcDirs(
+            "../honoka-gradle-utils/$suffix",
+            "../honoka-basic-plugin/$suffix"
+        )
+    }
+
+    create("stub") {
+        java.srcDir("../stubs/$suffix")
+    }
+}
 
 configurations {
     named("stubImplementation") {
-        extendsFrom(configurations.implementation.get())
+        extendsFrom(implementation.get())
     }
 }
 
 dependencies {
+    implementation(libs.kotlin.gradle.plugin)
     compileOnly(sourceSets["stub"].output)
 }

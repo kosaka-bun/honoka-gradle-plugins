@@ -1,6 +1,6 @@
 version = libs.versions.p.honoka.gradle.utils.get()
 
-honoka.buildSrc {
+honoka.basic {
     publishing {
         default()
     }

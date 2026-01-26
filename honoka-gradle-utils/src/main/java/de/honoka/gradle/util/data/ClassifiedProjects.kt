@@ -2,7 +2,7 @@ package de.honoka.gradle.util.data
 
 import org.gradle.api.Project
 
-class ClassifiedProjects internal constructor() {
+class ClassifiedProjects @PublishedApi internal constructor() {
 
     lateinit var jvm: Set<Project>
 
@@ -20,3 +20,6 @@ class ClassifiedProjects internal constructor() {
 
     lateinit var other: MutableMap<String, Set<Project>>
 }
+
+inline fun classifyProjects(block: ClassifiedProjects.() -> Unit): ClassifiedProjects =
+    ClassifiedProjects().apply(block)

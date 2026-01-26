@@ -3,12 +3,12 @@
 package de.honoka.gradle.plugin.android.ext
 
 import com.android.build.gradle.internal.api.DefaultAndroidSourceDirectorySet
-import de.honoka.gradle.plugin.android.util.dsl.android
+import de.honoka.gradle.plugin.android.dsl.android
+import de.honoka.gradle.plugin.basic.dsl.publishing
 import de.honoka.gradle.plugin.basic.ext.PublishingExt
 import de.honoka.gradle.plugin.basic.ext.PublishingExt.PublicationsExt
 import de.honoka.gradle.plugin.basic.ext.PublishingExt.RepositoriesExt
 import de.honoka.gradle.util.dsl.category
-import de.honoka.gradle.util.dsl.publishing
 import org.gradle.api.internal.artifacts.dependencies.AbstractModuleDependency
 import org.gradle.api.internal.artifacts.dependencies.DefaultExternalModuleDependency
 import org.gradle.api.plugins.ExtensionAware

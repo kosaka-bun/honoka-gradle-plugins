@@ -1,11 +1,11 @@
 package de.honoka.gradle.plugin.basic.ext
 
-import de.honoka.gradle.util.dsl.*
+import de.honoka.gradle.plugin.basic.dsl.*
+import de.honoka.gradle.util.dsl.libVersions
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.exclude
 
-@Suppress("unused")
 open class DependenciesExt(val project: Project) {
 
     private val versions by lazy { project.libVersions() }
@@ -28,6 +28,7 @@ open class DependenciesExt(val project: Project) {
             implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
             implementation("org.jetbrains.kotlin:kotlin-reflect")
             implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core")
+            testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
         }
     }
 
