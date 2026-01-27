@@ -25,22 +25,23 @@ subprojects {
         `maven-publish`
     }
 
-    if(project !in projects.gradlePlugin) {
+    if(project in projects.gradlePlugin) {
+        applier.`kotlin-dsl`
+
+        group = "${rootProject.group}.plugin"
+    } else {
         applier {
             `java-library`
             `kotlin-dsl-base`
         }
 
         group = rootProject.group
-    } else {
-        applier.`kotlin-dsl`
-
-        group = "${rootProject.group}.plugin"
     }
 
     honoka.basic {
         configs {
             java(17, true)
+            javaTask()
             kotlin()
         }
     }

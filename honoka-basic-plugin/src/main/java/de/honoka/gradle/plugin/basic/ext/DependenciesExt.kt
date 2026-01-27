@@ -1,14 +1,39 @@
 package de.honoka.gradle.plugin.basic.ext
 
 import de.honoka.gradle.plugin.basic.dsl.*
-import de.honoka.gradle.util.dsl.libVersions
 import org.gradle.api.Project
+import org.gradle.api.internal.catalog.VersionModel
 import org.gradle.kotlin.dsl.dependencies
 import org.gradle.kotlin.dsl.exclude
 
 open class DependenciesExt(val project: Project) {
 
-    private val versions by lazy { project.libVersions() }
+    private val versions by lazy { parseVersions() }
+
+    @Suppress("UNCHECKED_CAST")
+    private fun parseVersions(): Map<String, String> {
+        val result = HashMap<String, String>()
+        //靠后的版本信息将覆盖靠前的同名版本信息
+        val catalogNames = listOf("commonLibs", "libs")
+        catalogNames.forEach {
+            val libs = runCatching {
+                project.rootProject.extensions.getByName(it)
+            }.getOrElse {
+                return@forEach
+            }
+            val versions = libs.javaClass.getDeclaredMethod("getVersions").invoke(libs)
+            val catalog = versions.javaClass.superclass.getDeclaredField("config").run {
+                isAccessible = true
+                get(versions)
+            }
+            val versionModels = catalog.javaClass.getDeclaredField("versions").run {
+                isAccessible = true
+                get(catalog) as Map<String, VersionModel>
+            }
+            result.putAll(versionModels.mapValues { e -> e.value.version.toString() })
+        }
+        return result
+    }
 
     fun kotlinBom() {
         val boms = listOf(

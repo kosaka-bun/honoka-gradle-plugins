@@ -5,31 +5,24 @@ import de.honoka.gradle.plugin.basic.HonokaExt
 import de.honoka.gradle.plugin.basic.ext.ConfigsExt
 import de.honoka.gradle.plugin.basic.ext.PublishingExt
 import de.honoka.gradle.util.dsl.asExt
-import org.gradle.accessors.dm.LibrariesForCommonLibs
-import org.gradle.accessors.dm.LibrariesForLibs
+import de.honoka.gradle.util.dsl.find
 import org.gradle.api.Action
 import org.gradle.api.Project
-import org.gradle.api.plugins.ExtensionAware
 import org.gradle.api.plugins.JavaPluginExtension
 import org.gradle.api.publish.PublishingExtension
-import org.gradle.kotlin.dsl.extra
 import org.jetbrains.kotlin.gradle.plugin.KaptExtension
 
-val Project.libs: LibrariesForLibs
-    get() = (rootProject.extensions.getByName("libs") as LibrariesForLibs).apply {
-        this as ExtensionAware
-        if(extra.has("commonLibs")) return@apply
-        extra["commonLibs"] = rootProject.extensions.findByName("commonLibs")
-    }
-
-val LibrariesForLibs.common: LibrariesForCommonLibs
-    get() = asExt().extra["commonLibs"] as LibrariesForCommonLibs
-
 val Project.honoka: HonokaExt
-    get() = extensions.getByName("honoka") as HonokaExt
+    get() = extensions.find("honoka")
+
+val HonokaExt.basic: BasicPluginExt
+    get() = asExt().extensions.find("basic")
+
+val BasicPluginExt.publishing: PublishingExt
+    get() = asExt().extensions.find("publishing")
 
 val Project.java: JavaPluginExtension
-    get() = extensions.getByName("java") as JavaPluginExtension
+    get() = extensions.find("java")
 
 fun Project.java(configure: Action<JavaPluginExtension>) {
     extensions.configure("java", configure)

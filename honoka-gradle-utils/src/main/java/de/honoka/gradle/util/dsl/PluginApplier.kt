@@ -6,7 +6,7 @@ import org.gradle.internal.declarativedsl.plugins.MutablePluginDependencySpec
 import org.gradle.plugin.use.PluginDependenciesSpec
 import org.gradle.plugin.use.PluginDependencySpec
 
-class PluginApplier(@PublishedApi internal val project: Project) : PluginDependenciesSpec {
+class PluginApplier internal constructor(@PublishedApi internal val project: Project) : PluginDependenciesSpec {
 
     override fun id(id: String): PluginDependencySpec {
         project.applyPlugin(id)

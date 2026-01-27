@@ -13,19 +13,20 @@ import java.nio.charset.StandardCharsets
 open class ConfigsExt(val project: Project) {
 
     fun java(version: Int, withSourcesJar: Boolean = false) {
-        project.run {
-            java {
-                toolchain.languageVersion.set(JavaLanguageVersion.of(version))
-                if(withSourcesJar) {
-                    withSourcesJar()
-                }
+        project.java {
+            toolchain.languageVersion.set(JavaLanguageVersion.of(version))
+            if(withSourcesJar) {
+                withSourcesJar()
             }
-            tasks.withType<JavaCompile> {
-                options.run {
-                    encoding = StandardCharsets.UTF_8.name()
-                    val compilerArgs = compilerArgs as MutableCollection<String>
-                    compilerArgs += listOf("-parameters")
-                }
+        }
+    }
+
+    fun javaTask() {
+        project.tasks.withType<JavaCompile> {
+            options.run {
+                encoding = StandardCharsets.UTF_8.name()
+                val compilerArgs = compilerArgs as MutableCollection<String>
+                compilerArgs += listOf("-parameters")
             }
         }
         test()

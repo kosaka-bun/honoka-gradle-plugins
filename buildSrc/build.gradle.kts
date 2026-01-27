@@ -3,17 +3,17 @@ plugins {
 }
 
 sourceSets {
-    val suffix = "src/main/java"
+    fun srcDirOf(projectName: String): String = "../$projectName/src/main/java"
 
     main {
-        java.srcDirs(
-            "../honoka-gradle-utils/$suffix",
-            "../honoka-basic-plugin/$suffix"
-        )
+        java {
+            srcDir(srcDirOf("honoka-gradle-utils"))
+            srcDir(srcDirOf("honoka-basic-plugin"))
+        }
     }
 
     create("stub") {
-        java.srcDir("../stubs/$suffix")
+        java.srcDir(srcDirOf("stubs"))
     }
 }
 

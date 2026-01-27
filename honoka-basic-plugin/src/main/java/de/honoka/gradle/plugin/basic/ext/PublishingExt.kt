@@ -3,6 +3,7 @@ package de.honoka.gradle.plugin.basic.ext
 import de.honoka.gradle.plugin.basic.dsl.publishing
 import de.honoka.gradle.util.dsl.BaseExtension
 import de.honoka.gradle.util.dsl.rawDependencies
+import de.honoka.gradle.util.dsl.validVersion
 import de.honoka.gradle.util.dsl.versions
 import org.gradle.api.Project
 import org.gradle.api.artifacts.Dependency
@@ -40,7 +41,7 @@ open class PublishingExt(val project: Project) : BaseExtension() {
                         create<MavenPublication>("maven") {
                             groupId = group as String
                             artifactId = project.name
-                            version = project.version.toString()
+                            version = validVersion
                             from(components["java"])
                         }
                     }
@@ -49,14 +50,28 @@ open class PublishingExt(val project: Project) : BaseExtension() {
         }
     }
 
+    private lateinit var repositories: RepositoriesExt
+
+    private lateinit var publications: PublicationsExt
+
+    var version: String
+        get() = project.version.toString()
+        set(value) {
+            project.version = value
+            default()
+        }
+
+    var gradlePluginVersion: String
+        get() = version
+        set(value) {
+            project.version = value
+            repositories.default()
+        }
+
     override fun defineDsls() {
         repositories = defineDsl("repositories", RepositoriesExt::class)
         publications = defineDsl("publications", PublicationsExt::class)
     }
-
-    private lateinit var repositories: RepositoriesExt
-
-    private lateinit var publications: PublicationsExt
 
     fun default() {
         repositories.default()

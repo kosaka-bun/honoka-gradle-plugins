@@ -1,7 +1,6 @@
 package de.honoka.gradle.util.dsl
 
 import org.gradle.api.plugins.ExtensionAware
-import org.gradle.kotlin.dsl.get
 import kotlin.reflect.KClass
 import kotlin.reflect.KFunction1
 import kotlin.reflect.jvm.isAccessible
@@ -25,13 +24,4 @@ fun <T : Any> ExtensionAware.defineDsl(name: String, clazz: KClass<T>): T {
         BaseExtension.defineDslsFun.call(extension)
     }
     return extension
-}
-
-@Suppress("UNCHECKED_CAST")
-fun <T : Any> ExtensionAware.getNestedExtension(path: String): T {
-    var extension: ExtensionAware = this
-    path.split(".").forEach {
-        extension = extension.extensions[it].asExt()
-    }
-    return extension as T
 }

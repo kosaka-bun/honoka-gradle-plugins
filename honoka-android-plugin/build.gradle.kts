@@ -1,4 +1,6 @@
-version = libs.versions.p.honoka.android.plugin.get()
+import de.honoka.gradle.plugin.basic.dsl.publishing
+
+honoka.basic.publishing.gradlePluginVersion = libs.versions.p.honoka.android.plugin.get()
 
 dependencies {
     implementation(libs.honoka.basic.plugin)
@@ -10,14 +12,6 @@ gradlePlugin {
         create("honokaAndroid") {
             id = "de.honoka.gradle.plugin.android"
             implementationClass = "de.honoka.gradle.plugin.android.AndroidPlugin"
-        }
-    }
-}
-
-honoka.basic {
-    publishing {
-        repositories {
-            default()
         }
     }
 }
