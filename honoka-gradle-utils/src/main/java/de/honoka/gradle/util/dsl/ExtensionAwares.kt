@@ -11,9 +11,11 @@ import org.gradle.kotlin.dsl.get
 
 fun Any.asExt(): ExtensionAware = this as ExtensionAware
 
-fun <T> ExtensionContainer.find(name: String): T = findByName(name) as T
+fun <T> ExtensionContainer.find(name: String, defaultValue: T? = null): T =
+    (findByName(name) ?: defaultValue) as T
 
-fun <T> ExtraPropertiesExtension.find(key: String): T = (if(has(key)) get(key) else null) as T
+fun <T> ExtraPropertiesExtension.find(key: String, defaultValue: T? = null): T =
+    (if(has(key)) get(key) else defaultValue) as T
 
 fun ExtraPropertiesExtension.putIfNotExists(key: String, value: Any?) {
     if(has(key)) return

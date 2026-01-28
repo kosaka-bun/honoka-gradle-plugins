@@ -1,7 +1,7 @@
 package de.honoka.gradle.plugin.basic.dsl
 
-import de.honoka.gradle.plugin.basic.BasicPluginExt
 import de.honoka.gradle.plugin.basic.HonokaExt
+import de.honoka.gradle.plugin.basic.ext.BasicExt
 import de.honoka.gradle.plugin.basic.ext.ConfigsExt
 import de.honoka.gradle.plugin.basic.ext.PublishingExt
 import de.honoka.gradle.util.dsl.asExt
@@ -15,10 +15,10 @@ import org.jetbrains.kotlin.gradle.plugin.KaptExtension
 val Project.honoka: HonokaExt
     get() = extensions.find("honoka")
 
-val HonokaExt.basic: BasicPluginExt
+val HonokaExt.basic: BasicExt
     get() = asExt().extensions.find("basic")
 
-val BasicPluginExt.publishing: PublishingExt
+val BasicExt.publishing: PublishingExt
     get() = asExt().extensions.find("publishing")
 
 val Project.java: JavaPluginExtension
@@ -36,14 +36,14 @@ fun Project.publishing(configure: Action<PublishingExtension>) {
     extensions.configure("publishing", configure)
 }
 
-fun HonokaExt.basic(configure: Action<BasicPluginExt>) {
+fun HonokaExt.basic(configure: Action<BasicExt>) {
     asExt().extensions.configure("basic", configure)
 }
 
-fun BasicPluginExt.publishing(configure: Action<PublishingExt>) {
+fun BasicExt.publishing(configure: Action<PublishingExt>) {
     asExt().extensions.configure("publishing", configure)
 }
 
-fun BasicPluginExt.configs(configure: Action<ConfigsExt>) {
+fun BasicExt.configs(configure: Action<ConfigsExt>) {
     asExt().extensions.configure("configs", configure)
 }

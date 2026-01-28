@@ -16,7 +16,6 @@ import de.honoka.gradle.util.dsl.find
 import de.honoka.gradle.util.dsl.validVersion
 import org.gradle.api.internal.artifacts.dependencies.AbstractModuleDependency
 import org.gradle.api.internal.artifacts.dependencies.DefaultExternalModuleDependency
-import org.gradle.api.plugins.ExtensionAware
 import org.gradle.api.publish.maven.MavenPom
 import org.gradle.api.publish.maven.MavenPublication
 import org.gradle.jvm.tasks.Jar
@@ -35,20 +34,21 @@ var PublishingExt.aarVersion: String
     }
 
 var PublishingExt.useOwnProjectName: Boolean
-    get() = asExt().extra.find("honoka.useOwnProjectName")
+    get() = asExt().extra.find("honoka.useOwnProjectName", false)
     set(value) {
         asExt().extra["honoka.useOwnProjectName"] = value
     }
 
 fun PublishingExt.defaultAar() {
-    this as ExtensionAware
-    (extensions["repositories"] as RepositoriesExt).default()
-    (extensions["publications"] as PublicationsExt).defaultAar()
+    asExt().extensions.run {
+        find<RepositoriesExt>("repositories").default()
+        find<PublicationsExt>("publications").defaultAar()
+    }
 }
 
 fun PublicationsExt.defaultAar() {
     project.run {
-        android {
+        honoka.android.library {
             sourceSets["main"].java {
                 val sourceDirSet = if(this is DefaultAndroidSourceDirectorySet) srcDirs else setOf()
                 defineAarSourcesJarTask(sourceDirSet)

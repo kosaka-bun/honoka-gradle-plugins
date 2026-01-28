@@ -1,9 +1,9 @@
 package de.honoka.gradle.plugin.android.dsl
 
-import com.android.build.api.dsl.LibraryExtension
-import org.gradle.api.Action
-import org.gradle.api.Project
+import de.honoka.gradle.plugin.android.ext.AndroidExt
+import de.honoka.gradle.plugin.basic.HonokaExt
+import de.honoka.gradle.util.dsl.asExt
+import de.honoka.gradle.util.dsl.find
 
-fun Project.android(configure: Action<LibraryExtension>) {
-    extensions.configure("android", configure)
-}
+val HonokaExt.android: AndroidExt
+    get() = asExt().extensions.find("android")

@@ -12,11 +12,17 @@ class ClassifiedProjects @PublishedApi internal constructor() {
 
     lateinit var library: Set<Project>
 
+    lateinit var api: Set<Project>
+
     lateinit var app: Set<Project>
 
     lateinit var businessApp: Set<Project>
 
     lateinit var gradlePlugin: Set<Project>
+
+    lateinit var springBoot: Set<Project>
+
+    lateinit var springBootApp: Set<Project>
 
     lateinit var other: MutableMap<String, Set<Project>>
 }
