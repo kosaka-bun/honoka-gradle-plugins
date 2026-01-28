@@ -24,6 +24,8 @@ class ClassifiedProjects @PublishedApi internal constructor() {
 
     lateinit var springBootApp: Set<Project>
 
+    lateinit var android: Set<Project>
+
     lateinit var other: MutableMap<String, Set<Project>>
 }
 

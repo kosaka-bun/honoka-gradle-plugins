@@ -25,6 +25,9 @@ fun DependencyHandler.api(dn: Any, config: DependencyConfig? = null): Dependency
 fun DependencyHandler.compileOnly(dn: Any, config: DependencyConfig? = null): Dependency? =
     add("compileOnly", dn, config)
 
+fun DependencyHandler.runtimeOnly(dn: Any, config: DependencyConfig? = null): Dependency? =
+    add("runtimeOnly", dn, config)
+
 fun DependencyHandler.annotationProcessor(dn: Any, config: DependencyConfig? = null): Dependency? =
     add("annotationProcessor", dn, config)
 
