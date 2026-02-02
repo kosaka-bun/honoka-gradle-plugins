@@ -1,5 +1,6 @@
 package de.honoka.gradle.plugin.basic.ext
 
+import de.honoka.gradle.plugin.basic.dsl.allOpen
 import de.honoka.gradle.plugin.basic.dsl.java
 import de.honoka.gradle.plugin.basic.dsl.kapt
 import org.gradle.api.Project
@@ -19,6 +20,7 @@ open class ConfigsExt(val project: Project) {
                 withSourcesJar()
             }
         }
+        javaTask()
     }
 
     fun javaTask() {
@@ -33,15 +35,7 @@ open class ConfigsExt(val project: Project) {
     }
 
     fun kotlin() {
-        /*
-         * 由于除了原本的compileKotlin任务外，还存在compileTestKotlin和kapt的KaptGenerateStubsTask
-         * （KotlinCompile的子类）任务需要配置，因此这里不能使用“compileKotlin {}”块。
-         */
-        project.tasks.withType<KotlinCompile> {
-            compilerOptions {
-                freeCompilerArgs.addAll("-Xjsr305=strict", "-Xjvm-default=all")
-            }
-        }
+        configureKotlin(project)
     }
 
     fun kapt() {
@@ -50,9 +44,28 @@ open class ConfigsExt(val project: Project) {
         }
     }
 
-    private fun test() {
+    fun allOpen() {
+        project.allOpen {
+            annotation("de.honoka.sdk.util.kotlin.various.AllOpen")
+        }
+    }
+
+    fun test() {
         project.tasks.withType<Test> {
             useJUnitPlatform()
+            workingDir = project.rootDir
+        }
+    }
+}
+
+private fun configureKotlin(project: Project) {
+    /*
+     * 由于除了原本的compileKotlin任务外，还存在compileTestKotlin和kapt的KaptGenerateStubsTask
+     * （KotlinCompile的子类）任务需要配置，因此这里不能使用“compileKotlin {}”块。
+     */
+    project.tasks.withType<KotlinCompile> {
+        compilerOptions {
+            freeCompilerArgs.addAll("-Xjsr305=strict", "-Xjvm-default=all")
         }
     }
 }

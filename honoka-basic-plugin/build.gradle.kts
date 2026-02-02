@@ -3,7 +3,8 @@ import de.honoka.gradle.plugin.basic.dsl.publishing
 honoka.basic.publishing.gradlePluginVersion = libs.versions.p.honoka.basic.plugin.get()
 
 dependencies {
-    implementation(libs.kotlin.gradle.plugin)
+    compileOnly(libs.kotlin.gradle.plugin)
+    compileOnly(libs.kotlin.allopen)
     api(libs.honoka.gradle.utils)
 }
 

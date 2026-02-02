@@ -13,6 +13,7 @@ android-gradle-plugin = "8.12.0"
 
 [libraries]
 kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "d-kotlin" }
+kotlin-allopen = { module = "org.jetbrains.kotlin:kotlin-allopen", version.ref = "d-kotlin" }
 honoka-gradle-utils = { module = "de.honoka.gradle:honoka-gradle-utils", version.ref = "d-honoka-gradle-utils" }
 honoka-basic-plugin = { module = "de.honoka.gradle.plugin:honoka-basic-plugin", version.ref = "d-honoka-basic-plugin" }
 android-gradle-plugin = { module = "com.android.tools.build:gradle", version.ref = "android-gradle-plugin" }

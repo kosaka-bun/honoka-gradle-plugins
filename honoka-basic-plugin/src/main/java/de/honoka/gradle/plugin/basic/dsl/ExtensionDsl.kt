@@ -10,6 +10,7 @@ import org.gradle.api.Action
 import org.gradle.api.Project
 import org.gradle.api.plugins.JavaPluginExtension
 import org.gradle.api.publish.PublishingExtension
+import org.jetbrains.kotlin.allopen.gradle.AllOpenExtension
 import org.jetbrains.kotlin.gradle.plugin.KaptExtension
 
 val Project.honoka: HonokaExt
@@ -30,6 +31,10 @@ fun Project.java(configure: Action<JavaPluginExtension>) {
 
 fun Project.kapt(configure: Action<KaptExtension>) {
     extensions.configure("kapt", configure)
+}
+
+fun Project.allOpen(configure: Action<AllOpenExtension>) {
+    extensions.configure("allOpen", configure)
 }
 
 fun Project.publishing(configure: Action<PublishingExtension>) {

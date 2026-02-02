@@ -25,5 +25,6 @@ configurations {
 
 dependencies {
     implementation(libs.kotlin.gradle.plugin)
+    compileOnly(libs.kotlin.allopen)
     compileOnly(sourceSets["stub"].output)
 }
