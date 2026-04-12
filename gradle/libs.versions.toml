@@ -4,16 +4,19 @@ p-root = "1.1.0-dev"
 p-honoka-gradle-utils = "1.1.0-dev"
 p-honoka-basic-plugin = "1.1.0-dev"
 p-honoka-android-plugin = "1.1.0-dev"
+p-honoka-spring-plugin = "1.0.0-dev"
 
 # dependencies version
 d-kotlin = "2.2.21"
 d-honoka-gradle-utils = "1.1.0-dev"
 d-honoka-basic-plugin = "1.1.0-dev"
-android-gradle-plugin = "8.12.0"
+d-android-gradle-plugin = "8.12.0"
+d-spring-boot-gradle-plugin = "3.5.9"
 
 [libraries]
 kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "d-kotlin" }
 kotlin-allopen = { module = "org.jetbrains.kotlin:kotlin-allopen", version.ref = "d-kotlin" }
 honoka-gradle-utils = { module = "de.honoka.gradle:honoka-gradle-utils", version.ref = "d-honoka-gradle-utils" }
 honoka-basic-plugin = { module = "de.honoka.gradle.plugin:honoka-basic-plugin", version.ref = "d-honoka-basic-plugin" }
-android-gradle-plugin = { module = "com.android.tools.build:gradle", version.ref = "android-gradle-plugin" }
+android-gradle-plugin = { module = "com.android.tools.build:gradle", version.ref = "d-android-gradle-plugin" }
+spring-boot-gradle-plugin = { module = "org.springframework.boot:spring-boot-gradle-plugin", version.ref = "d-spring-boot-gradle-plugin" }

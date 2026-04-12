@@ -40,5 +40,8 @@ fun DependencyHandler.testCompileOnly(dn: Any, config: DependencyConfig? = null)
 fun DependencyHandler.testAnnotationProcessor(dn: Any, config: DependencyConfig? = null): Dependency? =
     add("testAnnotationProcessor", dn, config)
 
+fun DependencyHandler.debugImplementation(dn: Any, config: DependencyConfig? = null): Dependency? =
+    add("debugImplementation", dn, config)
+
 fun DependencyHandler.kapt(dn: Any, config: DependencyConfig? = null): Dependency? =
     add("kapt", dn, config)

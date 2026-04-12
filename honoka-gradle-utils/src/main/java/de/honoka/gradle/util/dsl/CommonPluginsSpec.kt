@@ -38,4 +38,7 @@ internal interface CommonPluginsSpec : PluginDependenciesSpec {
 
     val `honoka-android`: PluginDependencySpec
         get() = id("de.honoka.gradle.plugin.android")
+
+    val `honoka-spring`: PluginDependencySpec
+        get() = id("de.honoka.gradle.plugin.spring")
 }
